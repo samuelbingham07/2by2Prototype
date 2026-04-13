@@ -10,7 +10,8 @@ export default function App() {
   const [screen, setScreen] = useState('intro') // 'intro' | 'landing' | 'revealed' | 'finished'
   const [activeBoard, setActiveBoard] = useState(boards[0])
   const [userPosition, setUserPosition] = useState(null)
-  const [viewedProfiles, setViewedProfiles] = useState([])
+  const [viewedProfiles, setViewedProfiles] = useState([])   // all tapped (unlimited)
+  const [savedProfiles, setSavedProfiles] = useState([])    // explicitly saved (max 5)
   const [activeProfile, setActiveProfile] = useState(null)
 
   // Finished screen interaction state
@@ -21,21 +22,26 @@ export default function App() {
   const [sentMessages, setSentMessages] = useState(new Set())
 
   const boardUsers = users.filter(u => u.positions[activeBoard.id])
-  const canViewMore = viewedProfiles.length < MAX_PROFILES
-  const pickedUsers = viewedProfiles.map(id => users.find(u => u.id === id)).filter(Boolean)
+  const canSaveMore = savedProfiles.length < MAX_PROFILES
+  const pickedUsers = savedProfiles.map(id => users.find(u => u.id === id)).filter(Boolean)
 
   const handleDotClick = (user) => {
-    if (!canViewMore && !viewedProfiles.includes(user.id)) return
     if (!viewedProfiles.includes(user.id)) {
       setViewedProfiles(prev => [...prev, user.id])
     }
     setActiveProfile(user)
   }
 
+  const handleSaveProfile = (user) => {
+    if (!canSaveMore || savedProfiles.includes(user.id)) return
+    setSavedProfiles(prev => [...prev, user.id])
+  }
+
   const handleBoardSelect = (board) => {
     setActiveBoard(board)
     setUserPosition(null)
     setViewedProfiles([])
+    setSavedProfiles([])
     setActiveProfile(null)
     setScreen('landing')
   }
@@ -43,6 +49,8 @@ export default function App() {
   const handleBack = () => {
     setScreen('landing')
     setUserPosition(null)
+    setViewedProfiles([])
+    setSavedProfiles([])
   }
 
   const handleSendMessage = () => {
@@ -173,14 +181,21 @@ export default function App() {
         }}
       >
         {/* Header */}
-        <div className="w-full flex items-center justify-between pt-12 pb-4">
-          <div>
+        <div className="w-full flex items-center gap-3 pt-12 pb-4">
+          <button
+            onClick={() => setScreen('intro')}
+            className="flex items-center justify-center rounded-full flex-shrink-0"
+            style={{ width: 36, height: 36, background: 'rgba(255,255,255,0.08)' }}
+          >
+            ←
+          </button>
+          <div className="flex-1">
             <h1 className="text-2xl font-bold tracking-tight">2by2</h1>
             <p className="text-white/75 text-xs mt-0.5">Today's matching board</p>
           </div>
           <button
             onClick={() => setScreen('intro')}
-            className="text-xs font-medium px-3 py-1.5 rounded-full"
+            className="text-xs font-medium px-3 py-1.5 rounded-full flex-shrink-0"
             style={{ background: 'rgba(255,55,95,0.12)', color: '#FF375F' }}
           >
             About
@@ -492,18 +507,18 @@ export default function App() {
         padding: '0 20px',
       }}
     >
-      <div className="flex items-center justify-between pt-14 pb-4">
+      <div className="flex items-center gap-3 pt-14 pb-4">
+        <button
+          onClick={handleBack}
+          className="flex items-center justify-center rounded-full flex-shrink-0"
+          style={{ width: 36, height: 36, background: 'rgba(255,255,255,0.08)' }}
+        >
+          ←
+        </button>
         <div>
           <h2 className="font-bold text-base leading-tight">{activeBoard.title}</h2>
           <p className="text-white/75 text-xs">{boardUsers.length} people on the board</p>
         </div>
-        <button
-          onClick={handleBack}
-          className="text-xs font-medium px-3 py-1.5 rounded-full"
-          style={{ background: 'rgba(255,255,255,0.08)', color: 'rgba(255,255,255,0.82)' }}
-        >
-          Change board
-        </button>
       </div>
 
       <div
@@ -511,14 +526,18 @@ export default function App() {
         style={{ background: 'rgba(255,255,255,0.05)' }}
       >
         <span className="text-sm text-white/80">
-          {canViewMore ? 'Tap a dot to explore their profile' : "You've explored 5 profiles today"}
+          {savedProfiles.length === 0
+            ? 'Tap a dot · add up to 5 to your list'
+            : canSaveMore
+            ? `${savedProfiles.length}/5 saved — be selective`
+            : "List full · ready to connect"}
         </span>
         <div className="flex gap-1.5">
           {Array.from({ length: MAX_PROFILES }).map((_, i) => (
             <div
               key={i}
               className="rounded-full transition-all"
-              style={{ width: 8, height: 8, background: i < viewedProfiles.length ? '#FF375F' : 'rgba(255,255,255,0.15)' }}
+              style={{ width: 8, height: 8, background: i < savedProfiles.length ? '#FF375F' : 'rgba(255,255,255,0.15)' }}
             />
           ))}
         </div>
@@ -531,16 +550,16 @@ export default function App() {
           otherUsers={boardUsers}
           revealed
           onDotClick={handleDotClick}
-          viewedProfiles={viewedProfiles}
-          canViewMore={canViewMore}
+          viewedProfiles={savedProfiles}
+          canViewMore={true}
         />
       </div>
 
-      {viewedProfiles.length > 0 && (
+      {savedProfiles.length > 0 && (
         <div className="mt-2">
-          <p className="text-xs text-white/65 mb-2 font-medium">Recently viewed</p>
+          <p className="text-xs text-white/65 mb-2 font-medium">Your list</p>
           <div className="flex gap-3 overflow-x-auto pb-2 hide-scrollbar">
-            {viewedProfiles.map(id => {
+            {savedProfiles.map(id => {
               const u = users.find(u => u.id === id)
               if (!u) return null
               return (
@@ -563,7 +582,7 @@ export default function App() {
         </div>
       )}
 
-      {!canViewMore && (
+      {!canSaveMore && (
         <div className="mt-5 fade-in">
           <button
             onClick={() => setScreen('finished')}
@@ -585,6 +604,9 @@ export default function App() {
           user={activeProfile}
           activeBoard={activeBoard}
           onClose={() => setActiveProfile(null)}
+          onSave={handleSaveProfile}
+          isSaved={savedProfiles.includes(activeProfile.id)}
+          canSave={canSaveMore}
         />
       )}
     </div>

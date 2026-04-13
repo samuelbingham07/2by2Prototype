@@ -1,6 +1,4 @@
-import { boards } from '../data/boards'
-
-export default function ProfileCard({ user, activeBoard, onClose }) {
+export default function ProfileCard({ user, activeBoard, onClose, onSave, isSaved, canSave }) {
   const pos = user.positions[activeBoard.id]
 
   return (
@@ -19,7 +17,7 @@ export default function ProfileCard({ user, activeBoard, onClose }) {
           zIndex: 50,
           background: '#1C1C1E',
           borderRadius: '28px 28px 0 0',
-          padding: '8px 0 32px',
+          padding: '8px 0 36px',
           maxWidth: 480,
           margin: '0 auto',
         }}
@@ -72,28 +70,23 @@ export default function ProfileCard({ user, activeBoard, onClose }) {
           {/* Their position on the active board */}
           {pos && (
             <div
-              className="rounded-2xl p-4"
+              className="rounded-2xl p-4 mb-5"
               style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.08)' }}
             >
               <p className="text-xs text-white/70 mb-3 font-medium uppercase tracking-wide">
                 Their spot on "{activeBoard.title}"
               </p>
               <div className="relative" style={{ aspectRatio: '1/1', width: '100%', maxWidth: 180, margin: '0 auto' }}>
-                {/* Mini grid */}
                 <div
                   className="absolute inset-0 rounded-xl overflow-hidden"
                   style={{ background: '#0F0F0F', border: '1px solid rgba(255,255,255,0.08)' }}
                 >
                   <div className="absolute top-1/2 left-0 right-0" style={{ height: 1, background: 'rgba(255,255,255,0.1)' }} />
                   <div className="absolute left-1/2 top-0 bottom-0" style={{ width: 1, background: 'rgba(255,255,255,0.1)' }} />
-
-                  {/* Axis mini labels */}
                   <span className="absolute bottom-1 left-1 text-[8px] text-white/25">{activeBoard.xAxis.left}</span>
                   <span className="absolute bottom-1 right-1 text-[8px] text-white/25 text-right">{activeBoard.xAxis.right}</span>
                   <span className="absolute top-1 left-1 text-[8px] text-white/25">{activeBoard.yAxis.top}</span>
                   <span className="absolute bottom-4 left-1 text-[8px] text-white/25">{activeBoard.yAxis.bottom}</span>
-
-                  {/* Their dot */}
                   <div
                     className="absolute flex items-center justify-center rounded-full text-[10px] font-bold text-white"
                     style={{
@@ -109,16 +102,37 @@ export default function ProfileCard({ user, activeBoard, onClose }) {
                     {user.name[0]}
                   </div>
                 </div>
-
-                {/* Axis labels below/beside mini grid */}
               </div>
-
-              {/* Quadrant position text */}
               <p className="text-center text-xs text-white/70 mt-3">
                 {pos.x < 50 ? activeBoard.xAxis.left : activeBoard.xAxis.right}
                 {' · '}
                 {pos.y > 50 ? activeBoard.yAxis.top : activeBoard.yAxis.bottom}
               </p>
+            </div>
+          )}
+
+          {/* Save to list button */}
+          {isSaved ? (
+            <div
+              className="w-full py-3.5 rounded-2xl text-center text-sm font-semibold"
+              style={{ background: 'rgba(255,55,95,0.15)', color: '#FF375F', border: '1px solid rgba(255,55,95,0.3)' }}
+            >
+              ✓ Added to your list
+            </div>
+          ) : canSave ? (
+            <button
+              onClick={() => { onSave(user); onClose() }}
+              className="w-full py-3.5 rounded-2xl text-white font-bold text-sm transition-all active:scale-95"
+              style={{ background: '#FF375F', boxShadow: '0 4px 16px rgba(255,55,95,0.35)' }}
+            >
+              + Add to my list
+            </button>
+          ) : (
+            <div
+              className="w-full py-3.5 rounded-2xl text-center text-sm font-medium"
+              style={{ background: 'rgba(255,255,255,0.05)', color: 'rgba(255,255,255,0.4)' }}
+            >
+              List full — you've saved 5 today
             </div>
           )}
         </div>
