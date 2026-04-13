@@ -51,17 +51,31 @@ export default function App() {
           padding: '0 20px',
         }}
       >
+        {/* Hiki context banner */}
+        <div
+          className="w-full mt-10 mb-4 rounded-2xl flex items-start gap-3"
+          style={{ background: 'rgba(255,55,95,0.08)', border: '1px solid rgba(255,55,95,0.2)', padding: '14px 16px' }}
+        >
+          <span style={{ fontSize: 20, lineHeight: 1.4 }}>🎯</span>
+          <div>
+            <p className="text-sm font-semibold" style={{ color: '#FF375F' }}>Hiki · New Matching Feature</p>
+            <p className="text-xs mt-0.5" style={{ color: 'rgba(255,255,255,0.55)', lineHeight: 1.5 }}>
+              This is what users will see when they tap <strong style={{ color: 'rgba(255,255,255,0.75)' }}>Matching</strong> in the app — a daily 2by2 board where they place themselves, then explore who's nearby on the grid.
+            </p>
+          </div>
+        </div>
+
         {/* Header */}
-        <div className="w-full flex items-center justify-between pt-14 pb-6">
+        <div className="w-full flex items-center justify-between pb-6">
           <div>
             <h1 className="text-3xl font-bold tracking-tight">2by2</h1>
-            <p className="text-white/40 text-sm mt-0.5">Find your people</p>
+            <p className="text-white/40 text-sm mt-0.5">Today's matching board</p>
           </div>
           <div
             className="text-xs font-semibold px-3 py-1.5 rounded-full"
             style={{ background: 'rgba(255,55,95,0.15)', color: '#FF375F' }}
           >
-            Today's Board
+            Daily Board
           </div>
         </div>
 
@@ -133,7 +147,7 @@ export default function App() {
           </button>
         </div>
 
-        <p className="text-white/20 text-xs mt-6">Place yourself first, then see where everyone is</p>
+        <p className="text-white/20 text-xs mt-6 text-center">Place yourself first · see where others are · explore up to 5 profiles</p>
       </div>
     )
   }
