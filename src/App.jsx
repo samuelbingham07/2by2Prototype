@@ -7,7 +7,7 @@ import ProfileCard from './components/ProfileCard'
 const MAX_PROFILES = 5
 
 export default function App() {
-  const [screen, setScreen] = useState('landing') // 'landing' | 'placing' | 'revealed' | 'finished'
+  const [screen, setScreen] = useState('intro') // 'intro' | 'landing' | 'revealed' | 'finished'
   const [activeBoard, setActiveBoard] = useState(boards[0])
   const [userPosition, setUserPosition] = useState(null)
   const [viewedProfiles, setViewedProfiles] = useState([])
@@ -16,7 +16,7 @@ export default function App() {
   // Finished screen interaction state
   const [likedProfiles, setLikedProfiles] = useState(new Set())
   const [passedProfiles, setPassedProfiles] = useState(new Set())
-  const [composingFor, setComposingFor] = useState(null) // user object
+  const [composingFor, setComposingFor] = useState(null)
   const [messageText, setMessageText] = useState('')
   const [sentMessages, setSentMessages] = useState(new Set())
 
@@ -58,11 +58,7 @@ export default function App() {
       next.has(userId) ? next.delete(userId) : next.add(userId)
       return next
     })
-    setPassedProfiles(prev => {
-      const next = new Set(prev)
-      next.delete(userId)
-      return next
-    })
+    setPassedProfiles(prev => { const next = new Set(prev); next.delete(userId); return next })
   }
 
   const togglePass = (userId) => {
@@ -71,18 +67,102 @@ export default function App() {
       next.has(userId) ? next.delete(userId) : next.add(userId)
       return next
     })
-    setLikedProfiles(prev => {
-      const next = new Set(prev)
-      next.delete(userId)
-      return next
-    })
+    setLikedProfiles(prev => { const next = new Set(prev); next.delete(userId); return next })
   }
 
-  // ── LANDING ─────────────────────────────────────────────────────────────────
+  // ── INTRO ────────────────────────────────────────────────────────────────────
+  if (screen === 'intro') {
+    return (
+      <div
+        className="flex flex-col"
+        style={{
+          minHeight: '100vh',
+          background: '#0A0A0A',
+          color: '#fff',
+          maxWidth: 480,
+          margin: '0 auto',
+          padding: '0 24px 48px',
+        }}
+      >
+        {/* Top badge */}
+        <div className="flex justify-center pt-16 pb-8">
+          <div
+            className="flex items-center gap-2 px-4 py-2 rounded-full text-sm font-semibold"
+            style={{ background: 'rgba(255,55,95,0.15)', color: '#FF375F', border: '1px solid rgba(255,55,95,0.3)' }}
+          >
+            <span>✦</span>
+            <span>Hiki · New Feature</span>
+          </div>
+        </div>
+
+        {/* Hero */}
+        <div className="text-center mb-10">
+          <div style={{ fontSize: 64, lineHeight: 1, marginBottom: 20 }}>⊞</div>
+          <h1 className="text-4xl font-bold tracking-tight mb-3" style={{ lineHeight: 1.15 }}>
+            Introducing<br />2by2 Matching
+          </h1>
+          <p className="text-white/80 text-base leading-relaxed" style={{ maxWidth: 320, margin: '0 auto' }}>
+            A new way to find people on Hiki — based on where you both stand on the things that actually matter in a relationship.
+          </p>
+        </div>
+
+        {/* How it works steps */}
+        <div
+          className="w-full rounded-3xl mb-8"
+          style={{ background: '#141414', border: '1px solid rgba(255,255,255,0.07)', padding: '6px' }}
+        >
+          {[
+            { icon: '📍', step: 'Place yourself', desc: 'Tap the grid to show where you stand on today\'s topic' },
+            { icon: '👀', step: 'See the board', desc: 'All other users\' dots are revealed after you place yours' },
+            { icon: '💬', step: 'Connect', desc: 'Explore up to 5 profiles, then like, message, or pass' },
+          ].map((item, i) => (
+            <div
+              key={i}
+              className="flex items-start gap-4 rounded-2xl"
+              style={{ padding: '16px 18px' }}
+            >
+              <div
+                className="flex items-center justify-center rounded-xl flex-shrink-0 text-lg"
+                style={{ width: 40, height: 40, background: 'rgba(255,55,95,0.1)', border: '1px solid rgba(255,55,95,0.2)' }}
+              >
+                {item.icon}
+              </div>
+              <div>
+                <p className="font-semibold text-sm mb-0.5">{item.step}</p>
+                <p className="text-white/75 text-sm leading-snug">{item.desc}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* What users will see note */}
+        <div
+          className="w-full rounded-2xl mb-8 flex items-start gap-3"
+          style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)', padding: '14px 16px' }}
+        >
+          <span className="text-white/50 text-sm mt-0.5">ℹ️</span>
+          <p className="text-white/75 text-sm leading-relaxed">
+            This is what users will see when they tap <strong className="text-white">Matching</strong> in the Hiki app. A new board drops every day.
+          </p>
+        </div>
+
+        {/* CTA */}
+        <button
+          onClick={() => setScreen('landing')}
+          className="w-full py-4 rounded-2xl text-white font-bold text-base transition-all active:scale-95"
+          style={{ background: '#FF375F', boxShadow: '0 4px 24px rgba(255,55,95,0.4)' }}
+        >
+          Try the demo →
+        </button>
+      </div>
+    )
+  }
+
+  // ── LANDING (with inline placement) ─────────────────────────────────────────
   if (screen === 'landing') {
     return (
       <div
-        className="flex flex-col items-center"
+        className="flex flex-col"
         style={{
           minHeight: '100vh',
           background: '#0A0A0A',
@@ -92,32 +172,19 @@ export default function App() {
           padding: '0 20px',
         }}
       >
-        {/* Hiki context banner */}
-        <div
-          className="w-full mt-10 mb-4 rounded-2xl flex items-start gap-3"
-          style={{ background: 'rgba(255,55,95,0.08)', border: '1px solid rgba(255,55,95,0.2)', padding: '14px 16px' }}
-        >
-          <span style={{ fontSize: 20, lineHeight: 1.4 }}>🎯</span>
-          <div>
-            <p className="text-sm font-semibold" style={{ color: '#FF375F' }}>Hiki · New Matching Feature</p>
-            <p className="text-xs mt-0.5" style={{ color: 'rgba(255,255,255,0.88)', lineHeight: 1.5 }}>
-              This is what users will see when they tap <strong style={{ color: '#fff' }}>Matching</strong> in the app — a daily 2by2 board where they place themselves, then explore who's nearby on the grid.
-            </p>
-          </div>
-        </div>
-
         {/* Header */}
-        <div className="w-full flex items-center justify-between pb-6">
+        <div className="w-full flex items-center justify-between pt-12 pb-4">
           <div>
-            <h1 className="text-3xl font-bold tracking-tight">2by2</h1>
-            <p className="text-white/75 text-sm mt-0.5">Today's matching board</p>
+            <h1 className="text-2xl font-bold tracking-tight">2by2</h1>
+            <p className="text-white/75 text-xs mt-0.5">Today's matching board</p>
           </div>
-          <div
-            className="text-xs font-semibold px-3 py-1.5 rounded-full"
-            style={{ background: 'rgba(255,55,95,0.15)', color: '#FF375F' }}
+          <button
+            onClick={() => setScreen('intro')}
+            className="text-xs font-medium px-3 py-1.5 rounded-full"
+            style={{ background: 'rgba(255,55,95,0.12)', color: '#FF375F' }}
           >
-            Daily Board
-          </div>
+            About
+          </button>
         </div>
 
         {/* Board topic pills */}
@@ -140,102 +207,26 @@ export default function App() {
           ))}
         </div>
 
-        {/* Board card */}
-        <div
-          className="w-full mt-4 rounded-3xl flex flex-col"
-          style={{ background: '#1A1A1A', padding: '24px 24px 28px', flex: '0 0 auto' }}
-        >
-          <div className="mb-5">
-            <h2 className="text-xl font-bold mb-1">{activeBoard.title}</h2>
-            <p className="text-white/80 text-sm">{activeBoard.subtitle}</p>
-          </div>
-
-          {/* Preview grid */}
-          <div className="w-full mb-6" style={{ paddingLeft: 32, paddingBottom: 28 }}>
-            <QuadrantGrid board={activeBoard} />
-          </div>
-
-          {/* People count */}
-          <div className="flex items-center gap-2 mb-5">
-            <div className="flex -space-x-2">
-              {boardUsers.slice(0, 4).map(u => (
-                <div
-                  key={u.id}
-                  className="flex items-center justify-center rounded-full text-xs font-bold text-white"
-                  style={{
-                    width: 28,
-                    height: 28,
-                    background: u.color,
-                    border: '2px solid #1A1A1A',
-                  }}
-                >
-                  {u.name[0]}
-                </div>
-              ))}
-            </div>
-            <span className="text-white/80 text-sm">
-              {boardUsers.length} people placed themselves today
-            </span>
-          </div>
-
-          {/* CTA */}
-          <button
-            onClick={() => setScreen('placing')}
-            className="w-full py-4 rounded-2xl text-white font-bold text-base transition-all active:scale-95"
-            style={{ background: '#FF375F', boxShadow: '0 4px 20px rgba(255,55,95,0.4)' }}
-          >
-            Place Yourself →
-          </button>
+        {/* Board title */}
+        <div className="w-full mt-3 mb-3">
+          <h2 className="text-lg font-bold">{activeBoard.title}</h2>
+          <p className="text-white/80 text-sm mt-0.5">{activeBoard.subtitle}</p>
         </div>
 
-        <p className="text-white/60 text-xs mt-6 text-center">Place yourself first · see where others are · explore up to 5 profiles</p>
-      </div>
-    )
-  }
-
-  // ── PLACING ─────────────────────────────────────────────────────────────────
-  if (screen === 'placing') {
-    return (
-      <div
-        className="flex flex-col"
-        style={{
-          minHeight: '100vh',
-          background: '#0A0A0A',
-          color: '#fff',
-          maxWidth: 480,
-          margin: '0 auto',
-          padding: '0 20px',
-        }}
-      >
-        {/* Header */}
-        <div className="flex items-center gap-3 pt-14 pb-4">
-          <button
-            onClick={handleBack}
-            className="flex items-center justify-center rounded-full"
-            style={{ width: 36, height: 36, background: 'rgba(255,255,255,0.08)' }}
-          >
-            ←
-          </button>
-          <div>
-            <h2 className="font-bold text-base leading-tight">{activeBoard.title}</h2>
-            <p className="text-white/75 text-xs">Tap to place yourself</p>
-          </div>
-        </div>
-
-        {/* Instruction */}
+        {/* Placement status */}
         <div
-          className="w-full text-center py-2 mb-4 rounded-xl text-sm"
+          className="w-full text-center py-2 mb-3 rounded-xl text-sm font-medium"
           style={{
             background: userPosition ? 'rgba(255,55,95,0.1)' : 'rgba(255,255,255,0.05)',
             color: userPosition ? '#FF375F' : 'rgba(255,255,255,0.78)',
           }}
         >
           {userPosition
-            ? `You're in: ${userPosition.x < 50 ? activeBoard.xAxis.left : activeBoard.xAxis.right} · ${userPosition.y > 50 ? activeBoard.yAxis.top : activeBoard.yAxis.bottom}`
-            : 'Tap anywhere on the grid to place your dot'}
+            ? `You're here: ${userPosition.x < 50 ? activeBoard.xAxis.left : activeBoard.xAxis.right} · ${userPosition.y > 50 ? activeBoard.yAxis.top : activeBoard.yAxis.bottom}`
+            : 'Tap the grid to place yourself'}
         </div>
 
-        {/* Grid */}
+        {/* Interactive grid */}
         <div className="w-full" style={{ paddingLeft: 32, paddingBottom: 32 }}>
           <QuadrantGrid
             board={activeBoard}
@@ -244,28 +235,43 @@ export default function App() {
           />
         </div>
 
-        {/* Confirm button */}
-        <div className="mt-auto pb-10 pt-4">
-          <button
-            onClick={() => userPosition && setScreen('revealed')}
-            className="w-full py-4 rounded-2xl font-bold text-base transition-all active:scale-95"
-            style={{
-              background: userPosition ? '#FF375F' : 'rgba(255,255,255,0.1)',
-              color: userPosition ? '#fff' : 'rgba(255,255,255,0.65)',
-              boxShadow: userPosition ? '0 4px 20px rgba(255,55,95,0.4)' : 'none',
-              cursor: userPosition ? 'pointer' : 'default',
-            }}
-          >
-            {userPosition ? "I'm here — reveal everyone ✨" : 'Tap the grid first'}
-          </button>
+        {/* People count */}
+        <div className="flex items-center gap-2 mt-1 mb-4">
+          <div className="flex -space-x-2">
+            {boardUsers.slice(0, 4).map(u => (
+              <div
+                key={u.id}
+                className="flex items-center justify-center rounded-full text-xs font-bold text-white"
+                style={{ width: 26, height: 26, background: u.color, border: '2px solid #0A0A0A' }}
+              >
+                {u.name[0]}
+              </div>
+            ))}
+          </div>
+          <span className="text-white/80 text-sm">{boardUsers.length} people placed themselves today</span>
         </div>
+
+        {/* Reveal CTA — only active after placing */}
+        <button
+          onClick={() => userPosition && setScreen('revealed')}
+          className="w-full py-4 rounded-2xl font-bold text-base transition-all active:scale-95"
+          style={{
+            background: userPosition ? '#FF375F' : 'rgba(255,255,255,0.08)',
+            color: userPosition ? '#fff' : 'rgba(255,255,255,0.35)',
+            boxShadow: userPosition ? '0 4px 20px rgba(255,55,95,0.4)' : 'none',
+            cursor: userPosition ? 'pointer' : 'default',
+          }}
+        >
+          {userPosition ? "Reveal everyone ✨" : 'Place yourself to reveal the board'}
+        </button>
+
+        <div className="pb-10" />
       </div>
     )
   }
 
   // ── FINISHED ────────────────────────────────────────────────────────────────
   if (screen === 'finished') {
-    const activeCount = pickedUsers.filter(u => !passedProfiles.has(u.id)).length
     return (
       <div
         style={{
@@ -312,7 +318,6 @@ export default function App() {
             const isLiked = likedProfiles.has(user.id)
             const isPassed = passedProfiles.has(user.id)
             const isSent = sentMessages.has(user.id)
-
             return (
               <div
                 key={user.id}
@@ -330,16 +335,10 @@ export default function App() {
                   padding: '16px',
                 }}
               >
-                {/* Top row: avatar + info */}
                 <div className="flex items-center gap-3 mb-3">
                   <div
                     className="flex items-center justify-center rounded-2xl text-2xl flex-shrink-0"
-                    style={{
-                      width: 52,
-                      height: 52,
-                      background: `${user.color}22`,
-                      border: `2px solid ${user.color}44`,
-                    }}
+                    style={{ width: 52, height: 52, background: `${user.color}22`, border: `2px solid ${user.color}44` }}
                   >
                     {user.emoji}
                   </div>
@@ -355,8 +354,6 @@ export default function App() {
                     </p>
                   </div>
                 </div>
-
-                {/* Action buttons */}
                 <div className="flex gap-2">
                   <button
                     onClick={() => toggleLike(user.id)}
@@ -397,7 +394,6 @@ export default function App() {
           })}
         </div>
 
-        {/* Back to board */}
         <button
           onClick={handleBack}
           className="w-full mt-6 py-3.5 rounded-2xl font-semibold text-sm transition-all active:scale-95"
@@ -416,21 +412,12 @@ export default function App() {
             />
             <div
               className="fixed left-0 right-0 bottom-0 slide-up"
-              style={{
-                zIndex: 50,
-                background: '#1C1C1E',
-                borderRadius: '28px 28px 0 0',
-                padding: '8px 0 40px',
-                maxWidth: 480,
-                margin: '0 auto',
-              }}
+              style={{ zIndex: 50, background: '#1C1C1E', borderRadius: '28px 28px 0 0', padding: '8px 0 40px', maxWidth: 480, margin: '0 auto' }}
             >
-              {/* Handle */}
               <div className="flex justify-center pt-2 pb-4">
                 <div style={{ width: 40, height: 4, borderRadius: 2, background: 'rgba(255,255,255,0.2)' }} />
               </div>
               <div className="px-5">
-                {/* Recipient */}
                 <div className="flex items-center gap-3 mb-5">
                   <div
                     className="flex items-center justify-center rounded-xl text-2xl"
@@ -443,8 +430,6 @@ export default function App() {
                     <p className="text-white/75 text-xs">{composingFor.age} · {composingFor.interests[0]}</p>
                   </div>
                 </div>
-
-                {/* Suggested openers */}
                 <p className="text-xs text-white/65 mb-2 font-medium">Quick openers</p>
                 <div className="flex flex-wrap gap-2 mb-4">
                   {[
@@ -462,8 +447,6 @@ export default function App() {
                     </button>
                   ))}
                 </div>
-
-                {/* Text input */}
                 <div
                   className="flex items-end gap-2 rounded-2xl px-4 py-3"
                   style={{ background: 'rgba(255,255,255,0.07)', border: '1px solid rgba(255,255,255,0.1)' }}
@@ -473,15 +456,14 @@ export default function App() {
                     onChange={e => setMessageText(e.target.value)}
                     placeholder={`Say something to ${composingFor.name}...`}
                     rows={2}
-                    className="flex-1 bg-transparent text-sm text-white outline-none resize-none"
+                    className="flex-1 bg-transparent text-sm outline-none resize-none"
                     style={{ color: '#fff', caretColor: '#FF375F' }}
                   />
                   <button
                     onClick={handleSendMessage}
                     className="flex-shrink-0 flex items-center justify-center rounded-xl transition-all active:scale-95"
                     style={{
-                      width: 36,
-                      height: 36,
+                      width: 36, height: 36,
                       background: messageText.trim() ? '#FF375F' : 'rgba(255,255,255,0.1)',
                       color: messageText.trim() ? '#fff' : 'rgba(255,255,255,0.3)',
                     }}
@@ -510,7 +492,6 @@ export default function App() {
         padding: '0 20px',
       }}
     >
-      {/* Header */}
       <div className="flex items-center justify-between pt-14 pb-4">
         <div>
           <h2 className="font-bold text-base leading-tight">{activeBoard.title}</h2>
@@ -525,32 +506,24 @@ export default function App() {
         </button>
       </div>
 
-      {/* Profile counter */}
       <div
         className="w-full flex items-center justify-between py-2.5 px-4 rounded-xl mb-4"
         style={{ background: 'rgba(255,255,255,0.05)' }}
       >
         <span className="text-sm text-white/80">
-          {canViewMore
-            ? 'Tap a dot to explore their profile'
-            : "You've explored 5 profiles today"}
+          {canViewMore ? 'Tap a dot to explore their profile' : "You've explored 5 profiles today"}
         </span>
         <div className="flex gap-1.5">
           {Array.from({ length: MAX_PROFILES }).map((_, i) => (
             <div
               key={i}
               className="rounded-full transition-all"
-              style={{
-                width: 8,
-                height: 8,
-                background: i < viewedProfiles.length ? '#FF375F' : 'rgba(255,255,255,0.15)',
-              }}
+              style={{ width: 8, height: 8, background: i < viewedProfiles.length ? '#FF375F' : 'rgba(255,255,255,0.15)' }}
             />
           ))}
         </div>
       </div>
 
-      {/* Grid */}
       <div className="w-full" style={{ paddingLeft: 32, paddingBottom: 32 }}>
         <QuadrantGrid
           board={activeBoard}
@@ -563,7 +536,6 @@ export default function App() {
         />
       </div>
 
-      {/* Recently viewed row */}
       {viewedProfiles.length > 0 && (
         <div className="mt-2">
           <p className="text-xs text-white/65 mb-2 font-medium">Recently viewed</p>
@@ -579,12 +551,7 @@ export default function App() {
                 >
                   <div
                     className="flex items-center justify-center rounded-2xl text-2xl"
-                    style={{
-                      width: 52,
-                      height: 52,
-                      background: `${u.color}22`,
-                      border: `2px solid ${u.color}55`,
-                    }}
+                    style={{ width: 52, height: 52, background: `${u.color}22`, border: `2px solid ${u.color}55` }}
                   >
                     {u.emoji}
                   </div>
@@ -596,16 +563,12 @@ export default function App() {
         </div>
       )}
 
-      {/* Finish CTA — appears when all 5 are viewed */}
       {!canViewMore && (
         <div className="mt-5 fade-in">
           <button
             onClick={() => setScreen('finished')}
             className="w-full py-4 rounded-2xl text-white font-bold text-base transition-all active:scale-95"
-            style={{
-              background: 'linear-gradient(135deg, #FF375F, #FF6B9D)',
-              boxShadow: '0 4px 24px rgba(255,55,95,0.45)',
-            }}
+            style={{ background: 'linear-gradient(135deg, #FF375F, #FF6B9D)', boxShadow: '0 4px 24px rgba(255,55,95,0.45)' }}
           >
             See your 5 picks → Like, message &amp; connect
           </button>
@@ -617,7 +580,6 @@ export default function App() {
 
       <div className="pb-10" />
 
-      {/* Profile card overlay */}
       {activeProfile && (
         <ProfileCard
           user={activeProfile}
