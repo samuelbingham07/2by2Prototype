@@ -8,14 +8,15 @@
 
 html, body, #root {
   height: 100%;
+  min-height: 100%;
   margin: 0;
   padding: 0;
+  background: #0A0A0A;
 }
 
 body {
-  background: #0A0A0A;
   font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', sans-serif;
-  overflow: hidden;
+  overflow-x: hidden;
 }
 
 /* Hide scrollbar but allow scroll */

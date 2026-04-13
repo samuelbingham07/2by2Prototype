@@ -43,7 +43,7 @@ export default function App() {
       <div
         className="flex flex-col items-center"
         style={{
-          minHeight: '100dvh',
+          minHeight: '100vh',
           background: '#0A0A0A',
           color: '#fff',
           maxWidth: 480,
@@ -144,7 +144,7 @@ export default function App() {
       <div
         className="flex flex-col"
         style={{
-          minHeight: '100dvh',
+          minHeight: '100vh',
           background: '#0A0A0A',
           color: '#fff',
           maxWidth: 480,
@@ -213,7 +213,7 @@ export default function App() {
     <div
       className="flex flex-col"
       style={{
-        minHeight: '100dvh',
+        minHeight: '100vh',
         background: '#0A0A0A',
         color: '#fff',
         maxWidth: 480,
