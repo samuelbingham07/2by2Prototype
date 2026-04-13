@@ -59,8 +59,8 @@ export default function App() {
           <span style={{ fontSize: 20, lineHeight: 1.4 }}>🎯</span>
           <div>
             <p className="text-sm font-semibold" style={{ color: '#FF375F' }}>Hiki · New Matching Feature</p>
-            <p className="text-xs mt-0.5" style={{ color: 'rgba(255,255,255,0.55)', lineHeight: 1.5 }}>
-              This is what users will see when they tap <strong style={{ color: 'rgba(255,255,255,0.75)' }}>Matching</strong> in the app — a daily 2by2 board where they place themselves, then explore who's nearby on the grid.
+            <p className="text-xs mt-0.5" style={{ color: 'rgba(255,255,255,0.88)', lineHeight: 1.5 }}>
+              This is what users will see when they tap <strong style={{ color: '#fff' }}>Matching</strong> in the app — a daily 2by2 board where they place themselves, then explore who's nearby on the grid.
             </p>
           </div>
         </div>
@@ -69,7 +69,7 @@ export default function App() {
         <div className="w-full flex items-center justify-between pb-6">
           <div>
             <h1 className="text-3xl font-bold tracking-tight">2by2</h1>
-            <p className="text-white/40 text-sm mt-0.5">Today's matching board</p>
+            <p className="text-white/75 text-sm mt-0.5">Today's matching board</p>
           </div>
           <div
             className="text-xs font-semibold px-3 py-1.5 rounded-full"
@@ -88,7 +88,7 @@ export default function App() {
               className="flex-shrink-0 flex items-center gap-1.5 text-sm font-medium px-3.5 py-2 rounded-full transition-all"
               style={{
                 background: activeBoard.id === board.id ? '#FF375F' : 'rgba(255,255,255,0.08)',
-                color: activeBoard.id === board.id ? '#fff' : 'rgba(255,255,255,0.5)',
+                color: activeBoard.id === board.id ? '#fff' : 'rgba(255,255,255,0.82)',
                 border: 'none',
                 cursor: 'pointer',
               }}
@@ -106,7 +106,7 @@ export default function App() {
         >
           <div className="mb-5">
             <h2 className="text-xl font-bold mb-1">{activeBoard.title}</h2>
-            <p className="text-white/45 text-sm">{activeBoard.subtitle}</p>
+            <p className="text-white/80 text-sm">{activeBoard.subtitle}</p>
           </div>
 
           {/* Preview grid */}
@@ -132,7 +132,7 @@ export default function App() {
                 </div>
               ))}
             </div>
-            <span className="text-white/50 text-sm">
+            <span className="text-white/80 text-sm">
               {boardUsers.length} people placed themselves today
             </span>
           </div>
@@ -147,7 +147,7 @@ export default function App() {
           </button>
         </div>
 
-        <p className="text-white/20 text-xs mt-6 text-center">Place yourself first · see where others are · explore up to 5 profiles</p>
+        <p className="text-white/60 text-xs mt-6 text-center">Place yourself first · see where others are · explore up to 5 profiles</p>
       </div>
     )
   }
@@ -177,7 +177,7 @@ export default function App() {
           </button>
           <div>
             <h2 className="font-bold text-base leading-tight">{activeBoard.title}</h2>
-            <p className="text-white/40 text-xs">Tap to place yourself</p>
+            <p className="text-white/75 text-xs">Tap to place yourself</p>
           </div>
         </div>
 
@@ -186,7 +186,7 @@ export default function App() {
           className="w-full text-center py-2 mb-4 rounded-xl text-sm"
           style={{
             background: userPosition ? 'rgba(255,55,95,0.1)' : 'rgba(255,255,255,0.05)',
-            color: userPosition ? '#FF375F' : 'rgba(255,255,255,0.4)',
+            color: userPosition ? '#FF375F' : 'rgba(255,255,255,0.78)',
           }}
         >
           {userPosition
@@ -210,7 +210,7 @@ export default function App() {
             className="w-full py-4 rounded-2xl font-bold text-base transition-all active:scale-95"
             style={{
               background: userPosition ? '#FF375F' : 'rgba(255,255,255,0.1)',
-              color: userPosition ? '#fff' : 'rgba(255,255,255,0.3)',
+              color: userPosition ? '#fff' : 'rgba(255,255,255,0.65)',
               boxShadow: userPosition ? '0 4px 20px rgba(255,55,95,0.4)' : 'none',
               cursor: userPosition ? 'pointer' : 'default',
             }}
@@ -239,12 +239,12 @@ export default function App() {
       <div className="flex items-center justify-between pt-14 pb-4">
         <div>
           <h2 className="font-bold text-base leading-tight">{activeBoard.title}</h2>
-          <p className="text-white/40 text-xs">{boardUsers.length} people on the board</p>
+          <p className="text-white/75 text-xs">{boardUsers.length} people on the board</p>
         </div>
         <button
           onClick={handleBack}
           className="text-xs font-medium px-3 py-1.5 rounded-full"
-          style={{ background: 'rgba(255,255,255,0.08)', color: 'rgba(255,255,255,0.5)' }}
+          style={{ background: 'rgba(255,255,255,0.08)', color: 'rgba(255,255,255,0.82)' }}
         >
           Change board
         </button>
@@ -255,7 +255,7 @@ export default function App() {
         className="w-full flex items-center justify-between py-2.5 px-4 rounded-xl mb-4"
         style={{ background: 'rgba(255,255,255,0.05)' }}
       >
-        <span className="text-sm text-white/50">
+        <span className="text-sm text-white/80">
           {canViewMore
             ? 'Tap a dot to explore their profile'
             : "You've explored 5 profiles today"}
@@ -291,7 +291,7 @@ export default function App() {
       {/* Bottom: show recently viewed profiles */}
       {viewedProfiles.length > 0 && (
         <div className="mt-2">
-          <p className="text-xs text-white/30 mb-2 font-medium">Recently viewed</p>
+          <p className="text-xs text-white/65 mb-2 font-medium">Recently viewed</p>
           <div className="flex gap-3 overflow-x-auto pb-2 hide-scrollbar">
             {viewedProfiles.map(id => {
               const u = users.find(u => u.id === id)
@@ -313,7 +313,7 @@ export default function App() {
                   >
                     {u.emoji}
                   </div>
-                  <span className="text-xs text-white/50">{u.name}</span>
+                  <span className="text-xs text-white/80">{u.name}</span>
                 </button>
               )
             })}

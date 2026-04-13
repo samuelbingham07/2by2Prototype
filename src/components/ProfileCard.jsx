@@ -32,7 +32,7 @@ export default function ProfileCard({ user, activeBoard, onClose }) {
         {/* Close button */}
         <button
           onClick={onClose}
-          className="absolute top-4 right-4 flex items-center justify-center rounded-full text-white/60 hover:text-white transition-colors"
+          className="absolute top-4 right-4 flex items-center justify-center rounded-full text-white/85 hover:text-white transition-colors"
           style={{ width: 32, height: 32, background: 'rgba(255,255,255,0.1)' }}
         >
           ✕
@@ -50,7 +50,7 @@ export default function ProfileCard({ user, activeBoard, onClose }) {
             <div>
               <div className="flex items-baseline gap-2">
                 <h2 className="text-white text-2xl font-bold">{user.name}</h2>
-                <span className="text-white/50 text-lg">{user.age}</span>
+                <span className="text-white/80 text-lg">{user.age}</span>
               </div>
               <div className="flex gap-2 mt-1">
                 {user.interests.map(tag => (
@@ -67,7 +67,7 @@ export default function ProfileCard({ user, activeBoard, onClose }) {
           </div>
 
           {/* Bio */}
-          <p className="text-white/70 text-sm leading-relaxed mb-5">{user.bio}</p>
+          <p className="text-white/90 text-sm leading-relaxed mb-5">{user.bio}</p>
 
           {/* Their position on the active board */}
           {pos && (
@@ -75,7 +75,7 @@ export default function ProfileCard({ user, activeBoard, onClose }) {
               className="rounded-2xl p-4"
               style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.08)' }}
             >
-              <p className="text-xs text-white/40 mb-3 font-medium uppercase tracking-wide">
+              <p className="text-xs text-white/70 mb-3 font-medium uppercase tracking-wide">
                 Their spot on "{activeBoard.title}"
               </p>
               <div className="relative" style={{ aspectRatio: '1/1', width: '100%', maxWidth: 180, margin: '0 auto' }}>
@@ -114,7 +114,7 @@ export default function ProfileCard({ user, activeBoard, onClose }) {
               </div>
 
               {/* Quadrant position text */}
-              <p className="text-center text-xs text-white/40 mt-3">
+              <p className="text-center text-xs text-white/70 mt-3">
                 {pos.x < 50 ? activeBoard.xAxis.left : activeBoard.xAxis.right}
                 {' · '}
                 {pos.y > 50 ? activeBoard.yAxis.top : activeBoard.yAxis.bottom}
