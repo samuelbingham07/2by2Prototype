@@ -37,16 +37,16 @@ export default function QuadrantGrid({
         />
 
         {/* Quadrant labels */}
-        <span className="absolute top-3 left-3 text-[10px] text-white/15 font-medium leading-tight max-w-[80px]">
+        <span className="absolute top-3 left-3 text-[10px] text-white/60 font-medium leading-tight max-w-[80px]">
           {board.yAxis.top}<br />{board.xAxis.left}
         </span>
-        <span className="absolute top-3 right-3 text-[10px] text-white/15 font-medium leading-tight text-right max-w-[80px]">
+        <span className="absolute top-3 right-3 text-[10px] text-white/60 font-medium leading-tight text-right max-w-[80px]">
           {board.yAxis.top}<br />{board.xAxis.right}
         </span>
-        <span className="absolute bottom-3 left-3 text-[10px] text-white/15 font-medium leading-tight max-w-[80px]">
+        <span className="absolute bottom-3 left-3 text-[10px] text-white/60 font-medium leading-tight max-w-[80px]">
           {board.yAxis.bottom}<br />{board.xAxis.left}
         </span>
-        <span className="absolute bottom-3 right-3 text-[10px] text-white/15 font-medium leading-tight text-right max-w-[80px]">
+        <span className="absolute bottom-3 right-3 text-[10px] text-white/60 font-medium leading-tight text-right max-w-[80px]">
           {board.yAxis.bottom}<br />{board.xAxis.right}
         </span>
 
@@ -109,19 +109,19 @@ export default function QuadrantGrid({
       {/* Axis labels outside the grid */}
       {/* X axis */}
       <div className="absolute -bottom-7 left-0 right-0 flex justify-between px-1">
-        <span className="text-[11px] text-white/40 font-medium">← {board.xAxis.left}</span>
-        <span className="text-[11px] text-white/40 font-medium">{board.xAxis.right} →</span>
+        <span className="text-[11px] text-white/75 font-medium">← {board.xAxis.left}</span>
+        <span className="text-[11px] text-white/75 font-medium">{board.xAxis.right} →</span>
       </div>
       {/* Y axis */}
       <div className="absolute -left-8 top-0 bottom-0 flex flex-col justify-between py-1 items-center" style={{ width: 28 }}>
         <span
-          className="text-[11px] text-white/40 font-medium whitespace-nowrap"
+          className="text-[11px] text-white/75 font-medium whitespace-nowrap"
           style={{ transform: 'rotate(-90deg) translateX(50%)', transformOrigin: 'center', position: 'absolute', top: '25%' }}
         >
           {board.yAxis.top}
         </span>
         <span
-          className="text-[11px] text-white/40 font-medium whitespace-nowrap"
+          className="text-[11px] text-white/75 font-medium whitespace-nowrap"
           style={{ transform: 'rotate(-90deg) translateX(-50%)', transformOrigin: 'center', position: 'absolute', top: '75%' }}
         >
           {board.yAxis.bottom}
