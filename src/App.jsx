@@ -9,6 +9,7 @@ const MAX_PROFILES = 5
 export default function App() {
   const [screen, setScreen] = useState('intro') // 'intro' | 'landing' | 'revealed' | 'finished'
   const [activeBoard, setActiveBoard] = useState(boards[0])
+  const [boardLocked, setBoardLocked] = useState(false)
   const [userPosition, setUserPosition] = useState(null)
   const [viewedProfiles, setViewedProfiles] = useState([])   // all tapped (unlimited)
   const [savedProfiles, setSavedProfiles] = useState([])    // explicitly saved (max 5)
@@ -38,6 +39,7 @@ export default function App() {
   }
 
   const handleBoardSelect = (board) => {
+    if (boardLocked) return
     setActiveBoard(board)
     setUserPosition(null)
     setViewedProfiles([])
@@ -46,11 +48,22 @@ export default function App() {
     setScreen('landing')
   }
 
+  // Back from revealed → landing: keep board locked, just re-place
   const handleBack = () => {
     setScreen('landing')
     setUserPosition(null)
     setViewedProfiles([])
     setSavedProfiles([])
+  }
+
+  // Full reset from finished screen only
+  const handleFullReset = () => {
+    setBoardLocked(false)
+    setUserPosition(null)
+    setViewedProfiles([])
+    setSavedProfiles([])
+    setActiveProfile(null)
+    setScreen('landing')
   }
 
   const handleSendMessage = () => {
@@ -202,28 +215,45 @@ export default function App() {
           </button>
         </div>
 
+        {/* Board selection label */}
+        <div className="w-full flex items-center justify-between mb-2">
+          {boardLocked ? (
+            <div className="flex items-center gap-1.5">
+              <span className="text-xs font-semibold" style={{ color: '#FF375F' }}>🔒 Your board for today</span>
+            </div>
+          ) : (
+            <p className="text-xs text-white/75 font-medium">Pick your board · you only get one per day</p>
+          )}
+        </div>
+
         {/* Board topic pills */}
         <div className="w-full flex gap-2 overflow-x-auto pb-3 hide-scrollbar">
-          {boards.map(board => (
-            <button
-              key={board.id}
-              onClick={() => handleBoardSelect(board)}
-              className="flex-shrink-0 flex items-center gap-1.5 text-sm font-medium px-3.5 py-2 rounded-full transition-all"
-              style={{
-                background: activeBoard.id === board.id ? '#FF375F' : 'rgba(255,255,255,0.08)',
-                color: activeBoard.id === board.id ? '#fff' : 'rgba(255,255,255,0.82)',
-                border: 'none',
-                cursor: 'pointer',
-              }}
-            >
-              <span>{board.emoji}</span>
-              <span>{board.title.split(' ').slice(0, 3).join(' ')}</span>
-            </button>
-          ))}
+          {boards.map(board => {
+            const isActive = activeBoard.id === board.id
+            const isDisabled = boardLocked && !isActive
+            return (
+              <button
+                key={board.id}
+                onClick={() => handleBoardSelect(board)}
+                className="flex-shrink-0 flex items-center gap-1.5 text-sm font-medium px-3.5 py-2 rounded-full transition-all"
+                style={{
+                  background: isActive ? '#FF375F' : 'rgba(255,255,255,0.08)',
+                  color: isActive ? '#fff' : isDisabled ? 'rgba(255,255,255,0.25)' : 'rgba(255,255,255,0.82)',
+                  border: 'none',
+                  cursor: isDisabled ? 'default' : 'pointer',
+                  opacity: isDisabled ? 0.4 : 1,
+                  pointerEvents: isDisabled ? 'none' : 'auto',
+                }}
+              >
+                <span>{board.emoji}</span>
+                <span>{isActive && boardLocked ? '✓ ' : ''}{board.title.split(' ').slice(0, 3).join(' ')}</span>
+              </button>
+            )
+          })}
         </div>
 
         {/* Board title */}
-        <div className="w-full mt-3 mb-3">
+        <div className="w-full mt-1 mb-3">
           <h2 className="text-lg font-bold">{activeBoard.title}</h2>
           <p className="text-white/80 text-sm mt-0.5">{activeBoard.subtitle}</p>
         </div>
@@ -268,7 +298,7 @@ export default function App() {
 
         {/* Reveal CTA — only active after placing */}
         <button
-          onClick={() => userPosition && setScreen('revealed')}
+          onClick={() => { if (userPosition) { setBoardLocked(true); setScreen('revealed') } }}
           className="w-full py-4 rounded-2xl font-bold text-base transition-all active:scale-95"
           style={{
             background: userPosition ? '#FF375F' : 'rgba(255,255,255,0.08)',
@@ -410,11 +440,11 @@ export default function App() {
         </div>
 
         <button
-          onClick={handleBack}
+          onClick={handleFullReset}
           className="w-full mt-6 py-3.5 rounded-2xl font-semibold text-sm transition-all active:scale-95"
           style={{ background: 'rgba(255,255,255,0.07)', color: 'rgba(255,255,255,0.75)' }}
         >
-          ← Back to boards
+          ← Start over
         </button>
 
         {/* Message compose overlay */}
