@@ -1,8 +1,17 @@
-export const users = [
+// ─── AGE RANGE CONFIG ────────────────────────────────────────────────────────
+// Change these two values to shift the entire cohort's age range instantly.
+// Each user's age scales proportionally within the range.
+export const AGE_MIN = 24
+export const AGE_MAX = 34
+// ─────────────────────────────────────────────────────────────────────────────
+
+// ageFraction (0–1) = relative position within the age range.
+// Actual age = Math.round(AGE_MIN + ageFraction * (AGE_MAX - AGE_MIN))
+const profiles = [
   {
     id: 1,
     name: 'Maya',
-    age: 26,
+    ageFraction: 0.2,
     emoji: '👩🏽',
     color: '#4ECDC4',
     bio: 'Yoga teacher by day, secret gamer by night. My plants are finally thriving and I make a mean homemade pasta.',
@@ -20,7 +29,7 @@ export const users = [
   {
     id: 2,
     name: 'Jordan',
-    age: 28,
+    ageFraction: 0.4,
     emoji: '🧑🏻',
     color: '#FF9F1C',
     bio: 'Marketing lead, weekend hiker, coffee snob. I plan my spontaneity and I\'m not ashamed of it.',
@@ -38,7 +47,7 @@ export const users = [
   {
     id: 3,
     name: 'Sam',
-    age: 25,
+    ageFraction: 0.1,
     emoji: '👨🏽',
     color: '#A78BFA',
     bio: 'Freelance photographer. If you can\'t reach me I\'m probably camping somewhere with no signal.',
@@ -56,7 +65,7 @@ export const users = [
   {
     id: 4,
     name: 'Priya',
-    age: 27,
+    ageFraction: 0.3,
     emoji: '👩🏾',
     color: '#F9C74F',
     bio: 'UX designer. I read 40 books last year and I\'d rather cook a new recipe than go to a crowded bar.',
@@ -74,7 +83,7 @@ export const users = [
   {
     id: 5,
     name: 'Tyler',
-    age: 29,
+    ageFraction: 0.5,
     emoji: '🧑🏼',
     color: '#F15BB5',
     bio: '5am gym sessions, protein shakes, and somehow still fun at parties. Personal trainer + occasional chef.',
@@ -92,7 +101,7 @@ export const users = [
   {
     id: 6,
     name: 'Zoe',
-    age: 24,
+    ageFraction: 0.0,
     emoji: '👩🏻',
     color: '#06D6A0',
     bio: 'Illustrator and late-night thinker. My studio is a mess, my playlists are perfect.',
@@ -110,7 +119,7 @@ export const users = [
   {
     id: 7,
     name: 'Marcus',
-    age: 31,
+    ageFraction: 0.7,
     emoji: '👨🏿',
     color: '#84CC16',
     bio: 'Landscape architect. Up at 6 to catch the light. Terrible at texting, great in person.',
@@ -128,7 +137,7 @@ export const users = [
   {
     id: 8,
     name: 'Aisha',
-    age: 26,
+    ageFraction: 0.2,
     emoji: '👩🏾',
     color: '#FB8500',
     bio: 'Nurse practitioner who unwinds with reality TV and takeout. Chaotic schedule, very chill energy.',
@@ -146,7 +155,7 @@ export const users = [
   {
     id: 9,
     name: 'Chris',
-    age: 30,
+    ageFraction: 0.6,
     emoji: '🧑🏽',
     color: '#118AB2',
     bio: 'Startup founder. Trying to find the off button. My ideal date is a 7pm dinner so I can be home by 10.',
@@ -164,7 +173,7 @@ export const users = [
   {
     id: 10,
     name: 'Luna',
-    age: 25,
+    ageFraction: 0.1,
     emoji: '👩🏻‍🦰',
     color: '#9B5DE5',
     bio: 'Writer and chronic overthinker. I come alive at 11pm. My love language is sharing playlists.',
@@ -182,7 +191,7 @@ export const users = [
   {
     id: 11,
     name: 'Dev',
-    age: 28,
+    ageFraction: 0.4,
     emoji: '👨🏻',
     color: '#3B82F6',
     bio: 'Software engineer who stress-bakes. My apartment has too many keyboards and just enough sourdough.',
@@ -200,7 +209,7 @@ export const users = [
   {
     id: 12,
     name: 'Sofia',
-    age: 27,
+    ageFraction: 0.3,
     emoji: '👩🏽‍🦱',
     color: '#EF4444',
     bio: '34 countries by 27. Working remotely from somewhere new every month. Probably eating street food right now.',
@@ -218,7 +227,7 @@ export const users = [
   {
     id: 13,
     name: 'Milo',
-    age: 26,
+    ageFraction: 0.2,
     emoji: '👨🏾',
     color: '#F97316',
     bio: 'Line cook turned private chef. If I like you I\'ll make you breakfast. That\'s basically my whole personality.',
@@ -236,7 +245,7 @@ export const users = [
   {
     id: 14,
     name: 'Grace',
-    age: 29,
+    ageFraction: 0.5,
     emoji: '👩🏼',
     color: '#10B981',
     bio: 'Pilates instructor and nutritionist. Morning runs, green smoothies, 9pm bedtime. Boring? Maybe. Happy? Absolutely.',
@@ -254,7 +263,7 @@ export const users = [
   {
     id: 15,
     name: 'Kai',
-    age: 24,
+    ageFraction: 0.0,
     emoji: '🧑🏻‍🦱',
     color: '#EC4899',
     bio: 'Session musician and part-time barista. I believe every great relationship starts with a shared Spotify queue.',
@@ -270,3 +279,8 @@ export const users = [
     },
   },
 ]
+
+export const users = profiles.map(u => ({
+  ...u,
+  age: Math.round(AGE_MIN + u.ageFraction * (AGE_MAX - AGE_MIN)),
+}))
