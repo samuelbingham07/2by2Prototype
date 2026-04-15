@@ -1,8 +1,8 @@
 // ─── AGE RANGE CONFIG ────────────────────────────────────────────────────────
 // Change these two values to shift the entire cohort's age range instantly.
 // Each user's age scales proportionally within the range.
-export const AGE_MIN = 24
-export const AGE_MAX = 34
+export const AGE_MIN = 25
+export const AGE_MAX = 45
 // ─────────────────────────────────────────────────────────────────────────────
 
 // ageFraction (0–1) = relative position within the age range.
