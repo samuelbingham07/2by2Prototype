@@ -123,7 +123,7 @@ export default function App() {
             Introducing<br />2by2 Matching
           </h1>
           <p className="text-white/80 text-base leading-relaxed" style={{ maxWidth: 320, margin: '0 auto' }}>
-            A new way to find people on Hiki — based on where you both stand on the things that actually matter in a relationship.
+            A new way to find friends on Hiki — based on where you both stand on the things that actually matter in a friendship.
           </p>
         </div>
 
@@ -135,7 +135,7 @@ export default function App() {
           {[
             { icon: '📍', step: 'Place yourself', desc: 'Tap the grid to show where you stand on today\'s topic' },
             { icon: '👀', step: 'See the board', desc: 'All other users\' dots are revealed after you place yours' },
-            { icon: '💬', step: 'Connect', desc: 'Explore up to 5 profiles, then like, message, or pass' },
+            { icon: '💬', step: 'Connect', desc: 'Explore up to 5 profiles, then add friends, message, or pass' },
           ].map((item, i) => (
             <div
               key={i}
@@ -335,14 +335,14 @@ export default function App() {
             <h1 className="text-2xl font-bold tracking-tight">Your 5 picks</h1>
           </div>
           <p className="text-white/80 text-sm leading-relaxed">
-            Like, message, or pass — anyone you connect with will appear in your Hiki inbox.
+            Add friend, message, or pass — anyone you connect with will appear in your Hiki inbox.
           </p>
         </div>
 
         {/* Stats row */}
         <div className="flex gap-3 mt-4 mb-6">
           {[
-            { label: 'Liked', count: likedProfiles.size, color: '#FF375F' },
+            { label: 'Added', count: likedProfiles.size, color: '#FF375F' },
             { label: 'Messaged', count: sentMessages.size, color: '#3B82F6' },
             { label: 'Passed', count: passedProfiles.size, color: 'rgba(255,255,255,0.3)' },
           ].map(stat => (
@@ -391,7 +391,7 @@ export default function App() {
                     <div className="flex items-baseline gap-2">
                       <span className="font-bold text-base">{user.name}</span>
                       <span className="text-white/75 text-sm">{user.age}</span>
-                      {isLiked && <span className="text-xs ml-auto" style={{ color: '#FF375F' }}>Liked ❤️</span>}
+                      {isLiked && <span className="text-xs ml-auto" style={{ color: '#FF375F' }}>Added ✓</span>}
                       {isSent && !isLiked && <span className="text-xs ml-auto" style={{ color: '#3B82F6' }}>Sent 💬</span>}
                     </div>
                     <p className="text-white/75 text-xs mt-0.5 leading-snug" style={{ overflow: 'hidden', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical' }}>
@@ -409,7 +409,7 @@ export default function App() {
                       border: isLiked ? '1px solid rgba(255,55,95,0.4)' : '1px solid transparent',
                     }}
                   >
-                    {isLiked ? '❤️ Liked' : '🤍 Like'}
+                    {isLiked ? '✓ Friend Added' : '+ Add Friend'}
                   </button>
                   <button
                     onClick={() => { setComposingFor(user); setMessageText('') }}
@@ -619,7 +619,7 @@ export default function App() {
             className="w-full py-4 rounded-2xl text-white font-bold text-base transition-all active:scale-95"
             style={{ background: 'linear-gradient(135deg, #FF375F, #FF6B9D)', boxShadow: '0 4px 24px rgba(255,55,95,0.45)' }}
           >
-            See your 5 picks → Like, message &amp; connect
+            See your 5 picks → Add friends &amp; connect
           </button>
           <p className="text-center text-white/60 text-xs mt-3">
             Your connections will appear in your Hiki inbox

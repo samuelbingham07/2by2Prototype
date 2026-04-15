@@ -34,10 +34,10 @@ export const boards = [
   {
     id: 'relationship-style',
     emoji: '💕',
-    title: 'What are you looking for?',
-    subtitle: 'Space vs. closeness — casual or something real?',
-    xAxis: { left: 'Need My Space', right: 'Inseparable' },
-    yAxis: { bottom: 'Just for Fun', top: 'Looking for Forever' },
+    title: 'What kind of friendship?',
+    subtitle: 'Space vs. closeness — casual or ride-or-die?',
+    xAxis: { left: 'Need My Space', right: 'Always Around' },
+    yAxis: { bottom: 'Casual Hangouts', top: 'Deep Connection' },
   },
   {
     id: 'communication',

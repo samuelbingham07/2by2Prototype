@@ -266,7 +266,7 @@ const profiles = [
     ageFraction: 0.0,
     emoji: '🧑🏻‍🦱',
     color: '#EC4899',
-    bio: 'Session musician and part-time barista. I believe every great relationship starts with a shared Spotify queue.',
+    bio: 'Session musician and part-time barista. I believe every great friendship starts with a shared Spotify queue.',
     interests: ['Music', 'Coffee', 'Film'],
     positions: {
       'energy-timing':       { x: 15, y: 45 },
