@@ -103,7 +103,9 @@ export default function App() {
           maxWidth: 480,
           margin: '0 auto',
           padding: '0 24px 48px',
+          cursor: 'pointer',
         }}
+        onClick={() => setScreen('landing')}
       >
         {/* Top badge */}
         <div className="flex justify-center pt-16 pb-8">
@@ -127,54 +129,8 @@ export default function App() {
           </p>
         </div>
 
-        {/* How it works steps */}
-        <div
-          className="w-full rounded-3xl mb-8"
-          style={{ background: '#141414', border: '1px solid rgba(255,255,255,0.07)', padding: '6px' }}
-        >
-          {[
-            { icon: '📍', step: 'Place yourself', desc: 'Tap the grid to show where you stand on today\'s topic' },
-            { icon: '👀', step: 'See the board', desc: 'All other users\' dots are revealed after you place yours' },
-            { icon: '💬', step: 'Connect', desc: 'Explore up to 5 profiles, then add friends, message, or pass' },
-          ].map((item, i) => (
-            <div
-              key={i}
-              className="flex items-start gap-4 rounded-2xl"
-              style={{ padding: '16px 18px' }}
-            >
-              <div
-                className="flex items-center justify-center rounded-xl flex-shrink-0 text-lg"
-                style={{ width: 40, height: 40, background: 'rgba(255,55,95,0.1)', border: '1px solid rgba(255,55,95,0.2)' }}
-              >
-                {item.icon}
-              </div>
-              <div>
-                <p className="font-semibold text-sm mb-0.5">{item.step}</p>
-                <p className="text-white/75 text-sm leading-snug">{item.desc}</p>
-              </div>
-            </div>
-          ))}
-        </div>
-
-        {/* What users will see note */}
-        <div
-          className="w-full rounded-2xl mb-8 flex items-start gap-3"
-          style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)', padding: '14px 16px' }}
-        >
-          <span className="text-white/50 text-sm mt-0.5">ℹ️</span>
-          <p className="text-white/75 text-sm leading-relaxed">
-            This is what users will see when they tap <strong className="text-white">Matching</strong> in the Hiki app. A new board drops every day.
-          </p>
-        </div>
-
-        {/* CTA */}
-        <button
-          onClick={() => setScreen('landing')}
-          className="w-full py-4 rounded-2xl text-white font-bold text-base transition-all active:scale-95"
-          style={{ background: '#FF375F', boxShadow: '0 4px 24px rgba(255,55,95,0.4)' }}
-        >
-          Try the demo →
-        </button>
+        {/* Tap anywhere hint */}
+        <p className="text-center text-white/50 text-sm mt-4">tap anywhere to begin</p>
       </div>
     )
   }
