@@ -293,14 +293,21 @@ export default function App() {
         onClick={() => setScreen('landing')}
       >
         {/* Hero */}
-        <div className="text-center mb-8 pt-16">
-          <div style={{ fontSize: 56, lineHeight: 1, marginBottom: 16 }}>⊞</div>
-          <h1 className="text-4xl font-bold tracking-tight mb-3" style={{ lineHeight: 1.15 }}>
+        <div className="text-center mb-10 pt-20">
+          <div style={{ fontSize: 72, lineHeight: 1, marginBottom: 20 }}>⊞</div>
+          <h1 className="font-bold tracking-tight mb-3" style={{ fontSize: 52, lineHeight: 1.05 }}>
             Hiki Grids
           </h1>
-          <p className="text-white/80 text-base leading-relaxed" style={{ maxWidth: 320, margin: '0 auto' }}>
+          <p className="text-white text-base leading-relaxed" style={{ maxWidth: 320, margin: '0 auto' }}>
             {modeText.tagline[mode]}
           </p>
+        </div>
+
+        {/* First-time setup label */}
+        <div className="w-full flex items-center gap-3 mb-5" onClick={e => e.stopPropagation()}>
+          <div style={{ flex: 1, height: 1, background: 'rgba(255,255,255,0.08)' }} />
+          <p className="text-xs text-white/40 font-medium uppercase tracking-widest whitespace-nowrap">First-time setup</p>
+          <div style={{ flex: 1, height: 1, background: 'rgba(255,255,255,0.08)' }} />
         </div>
 
         {/* Mode selector */}
