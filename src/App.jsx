@@ -318,10 +318,10 @@ export default function App() {
           </div>
           <button
             onClick={() => setPrefsOpen(true)}
-            className="flex items-center justify-center rounded-full flex-shrink-0"
-            style={{ width: 36, height: 36, background: 'rgba(255,255,255,0.08)', fontSize: 16 }}
+            className="flex items-center justify-center rounded-full flex-shrink-0 text-xs font-semibold"
+            style={{ height: 36, padding: '0 14px', background: 'rgba(255,255,255,0.08)', color: 'rgba(255,255,255,0.82)' }}
           >
-            ⚙️
+            Preferences
           </button>
         </div>
         {prefsOpen && <PrefsPanel prefs={prefs} onChange={setPrefs} onClose={() => setPrefsOpen(false)} />}
