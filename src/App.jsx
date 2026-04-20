@@ -295,19 +295,8 @@ export default function App() {
         }}
         onClick={() => setScreen('landing')}
       >
-        {/* Top badge */}
-        <div className="flex justify-center pt-12 pb-6">
-          <div
-            className="flex items-center gap-2 px-4 py-2 rounded-full text-sm font-semibold"
-            style={{ background: 'rgba(255,55,95,0.15)', color: '#FF375F', border: '1px solid rgba(255,55,95,0.3)' }}
-          >
-            <span>✦</span>
-            <span>Hiki · New Feature</span>
-          </div>
-        </div>
-
         {/* Hero */}
-        <div className="text-center mb-8">
+        <div className="text-center mb-8 pt-16">
           <div style={{ fontSize: 56, lineHeight: 1, marginBottom: 16 }}>⊞</div>
           <h1 className="text-4xl font-bold tracking-tight mb-3" style={{ lineHeight: 1.15 }}>
             Hiki Grids
