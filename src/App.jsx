@@ -201,8 +201,20 @@ export default function App() {
           </p>
         </div>
 
+        {/* Pre-filter notice */}
+        <div
+          className="w-full flex items-center gap-3 rounded-2xl mb-6"
+          style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)', padding: '12px 16px' }}
+          onClick={e => e.stopPropagation()}
+        >
+          <span style={{ fontSize: 18 }}>✓</span>
+          <p className="text-white/75 text-sm leading-snug">
+            Everyone you see is already filtered by your <strong className="text-white">sexual orientation</strong> and <strong className="text-white">age range</strong>.
+          </p>
+        </div>
+
         {/* Tap anywhere hint */}
-        <p className="text-center text-white/50 text-sm mt-4">tap anywhere to begin</p>
+        <p className="text-center text-white/50 text-sm mt-2">tap anywhere to begin</p>
       </div>
     )
   }
