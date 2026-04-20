@@ -1,6 +1,18 @@
+export const PERMANENT_BOARD_ID = 'neurodivergent-match'
+
 export const boards = [
   {
+    id: 'neurodivergent-match',
+    emoji: '🧠',
+    title: 'Neurodivergent matching',
+    subtitle: 'Matched to others with the same compatibility preferences',
+    xAxis: { left: 'Same ND', right: 'Different ND' },
+    yAxis: { bottom: 'Different Comm Style', top: 'Same Comm Style' },
+    permanent: true,
+  },
+  {
     id: 'energy-timing',
+    day: 'Mon',
     emoji: '🌙',
     title: 'When do you come alive?',
     subtitle: 'Night owl or early bird — homebody or adventurer?',
@@ -9,6 +21,7 @@ export const boards = [
   },
   {
     id: 'social-energy',
+    day: 'Tue',
     emoji: '🎉',
     title: 'How do you recharge?',
     subtitle: 'Solo time or social time — low-key or buzzing?',
@@ -17,6 +30,7 @@ export const boards = [
   },
   {
     id: 'weekend-style',
+    day: 'Wed',
     emoji: '📅',
     title: 'Weekend personality',
     subtitle: 'Planner or spontaneous — Netflix or out and about?',
@@ -25,6 +39,7 @@ export const boards = [
   },
   {
     id: 'food-vibes',
+    day: 'Thu',
     emoji: '🍕',
     title: 'Food personality',
     subtitle: 'Cooking at home or dining out — comfort or healthy?',
@@ -33,6 +48,7 @@ export const boards = [
   },
   {
     id: 'relationship-style',
+    day: 'Fri',
     emoji: '💕',
     title: 'What kind of friendship?',
     subtitle: 'Space vs. closeness — casual or ride-or-die?',
@@ -41,6 +57,7 @@ export const boards = [
   },
   {
     id: 'communication',
+    day: 'Sat',
     emoji: '💬',
     title: 'How do you communicate?',
     subtitle: 'Non-stop texter or voice call person — memes or direct?',
@@ -49,18 +66,11 @@ export const boards = [
   },
   {
     id: 'ambition',
+    day: 'Sun',
     emoji: '🎯',
     title: 'Ambition & goals',
     subtitle: 'Work to live or live to work — drifting or driven?',
     xAxis: { left: 'Work to Live', right: 'Live to Work' },
     yAxis: { bottom: 'Go with the Flow', top: 'Goal Crusher' },
-  },
-  {
-    id: 'neurodivergent-match',
-    emoji: '🧠',
-    title: 'Neurodivergent matching',
-    subtitle: 'Matched to others with the same compatibility preferences',
-    xAxis: { left: 'Same ND', right: 'Different ND' },
-    yAxis: { bottom: 'Different Comm Style', top: 'Same Comm Style' },
   },
 ]

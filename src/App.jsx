@@ -260,7 +260,7 @@ export default function App() {
               <span className="text-xs font-semibold" style={{ color: '#FF375F' }}>🔒 Your board for today</span>
             </div>
           ) : (
-            <p className="text-xs text-white/75 font-medium">Pick your board · you only get one per day</p>
+            <p className="text-xs text-white/75 font-medium">New daily board every day · pick one</p>
           )}
         </div>
 
@@ -269,22 +269,30 @@ export default function App() {
           {boards.map(board => {
             const isActive = activeBoard.id === board.id
             const isDisabled = boardLocked && !isActive
+            const isPermanent = board.permanent
             return (
               <button
                 key={board.id}
                 onClick={() => handleBoardSelect(board)}
-                className="flex-shrink-0 flex items-center gap-1.5 text-sm font-medium px-3.5 py-2 rounded-full transition-all"
+                className="flex-shrink-0 flex flex-col items-center gap-0.5 text-sm font-medium px-3.5 rounded-2xl transition-all"
                 style={{
-                  background: isActive ? '#FF375F' : 'rgba(255,255,255,0.08)',
-                  color: isActive ? '#fff' : isDisabled ? 'rgba(255,255,255,0.25)' : 'rgba(255,255,255,0.82)',
-                  border: 'none',
+                  paddingTop: 6,
+                  paddingBottom: 6,
+                  background: isActive ? '#FF375F' : isPermanent ? 'rgba(255,55,95,0.12)' : 'rgba(255,255,255,0.08)',
+                  color: isActive ? '#fff' : isDisabled ? 'rgba(255,255,255,0.25)' : isPermanent ? '#FF375F' : 'rgba(255,255,255,0.82)',
+                  border: isPermanent && !isActive ? '1px solid rgba(255,55,95,0.3)' : 'none',
                   cursor: isDisabled ? 'default' : 'pointer',
                   opacity: isDisabled ? 0.4 : 1,
                   pointerEvents: isDisabled ? 'none' : 'auto',
                 }}
               >
-                <span>{board.emoji}</span>
-                <span>{isActive && boardLocked ? '✓ ' : ''}{board.title.split(' ').slice(0, 3).join(' ')}</span>
+                <div className="flex items-center gap-1.5">
+                  <span>{board.emoji}</span>
+                  <span>{isActive && boardLocked ? '✓ ' : ''}{board.title.split(' ').slice(0, 2).join(' ')}</span>
+                </div>
+                <span style={{ fontSize: 9, opacity: 0.7, fontWeight: 500, letterSpacing: '0.03em' }}>
+                  {isPermanent ? 'Always' : board.day}
+                </span>
               </button>
             )
           })}
