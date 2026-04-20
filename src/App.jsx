@@ -85,7 +85,7 @@ function PrefsPanel({ prefs, onChange, onClose }) {
         <button onClick={onClose} className="absolute top-4 right-4 flex items-center justify-center rounded-full text-white/85" style={{ width: 32, height: 32, background: 'rgba(255,255,255,0.1)' }}>✕</button>
         <div className="px-6">
           <h2 className="text-white text-xl font-bold mb-1">Preferences</h2>
-          <p className="text-white/60 text-sm mb-6">Control who appears in your Grids</p>
+          <p className="text-white/60 text-sm mb-6">Control who appears in your Hiki Grids</p>
           <div className="flex flex-col gap-1">
             {items.map((item, i) => (
               <div key={item.key}>
@@ -252,7 +252,7 @@ export default function App() {
         <div className="text-center mb-10">
           <div style={{ fontSize: 64, lineHeight: 1, marginBottom: 20 }}>⊞</div>
           <h1 className="text-4xl font-bold tracking-tight mb-3" style={{ lineHeight: 1.15 }}>
-            Introducing<br />Grids
+            Introducing<br />Hiki Grids
           </h1>
           <p className="text-white/80 text-base leading-relaxed" style={{ maxWidth: 320, margin: '0 auto' }}>
             {modeText.tagline[mode]}
@@ -313,7 +313,7 @@ export default function App() {
             ←
           </button>
           <div className="flex-1">
-            <h1 className="text-2xl font-bold tracking-tight">Grids</h1>
+            <h1 className="text-2xl font-bold tracking-tight">Hiki Grids</h1>
             <p className="text-white/75 text-xs mt-0.5">Today's matching board</p>
           </div>
           <button
