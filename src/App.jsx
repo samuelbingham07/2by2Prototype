@@ -68,13 +68,14 @@ function Toggle({ on, onToggle }) {
   )
 }
 
-function PrefsPanel({ prefs, onChange, onClose }) {
-  const items = [
-    { key: 'orientation', label: 'Sexual orientation', desc: 'Only show compatible orientations' },
-    { key: 'age',         label: 'Age range',          desc: 'Filter to your preferred age range' },
-    { key: 'location',    label: 'Location',            desc: 'Show people near you' },
-    { key: 'sameND',      label: 'Same neurodivergence', desc: 'Only show people with a similar ND profile' },
-  ]
+const PREF_ITEMS = [
+  { key: 'orientation', label: 'Sexual orientation', desc: 'Only show compatible orientations' },
+  { key: 'age',         label: 'Age range',          desc: 'Filter to your preferred age range' },
+  { key: 'location',    label: 'Location',            desc: 'Show people near you' },
+  { key: 'sameND',      label: 'Same neurodivergence', desc: 'Only show people with a similar ND profile' },
+]
+
+function BottomSheet({ onClose, children }) {
   return (
     <>
       <div className="fixed inset-0 fade-in" style={{ background: 'rgba(0,0,0,0.6)', zIndex: 40, backdropFilter: 'blur(4px)' }} onClick={onClose} />
@@ -83,26 +84,82 @@ function PrefsPanel({ prefs, onChange, onClose }) {
           <div style={{ width: 40, height: 4, borderRadius: 2, background: 'rgba(255,255,255,0.2)' }} />
         </div>
         <button onClick={onClose} className="absolute top-4 right-4 flex items-center justify-center rounded-full text-white/85" style={{ width: 32, height: 32, background: 'rgba(255,255,255,0.1)' }}>✕</button>
-        <div className="px-6">
-          <h2 className="text-white text-xl font-bold mb-1">Preferences</h2>
-          <p className="text-white/60 text-sm mb-6">Control who appears in your Hiki Grids</p>
-          <div className="flex flex-col gap-1">
-            {items.map((item, i) => (
-              <div key={item.key}>
-                <div className="flex items-center justify-between py-4">
-                  <div className="flex-1 pr-4">
-                    <p className="text-white text-sm font-semibold">{item.label}</p>
-                    <p className="text-white/55 text-xs mt-0.5">{item.desc}</p>
-                  </div>
-                  <Toggle on={prefs[item.key]} onToggle={() => onChange({ ...prefs, [item.key]: !prefs[item.key] })} />
-                </div>
-                {i < items.length - 1 && <div style={{ height: 1, background: 'rgba(255,255,255,0.06)' }} />}
-              </div>
-            ))}
-          </div>
-        </div>
+        {children}
       </div>
     </>
+  )
+}
+
+function PrefsPanel({ prefs, onChange, onClose }) {
+  return (
+    <BottomSheet onClose={onClose}>
+      <div className="px-6">
+        <h2 className="text-white text-xl font-bold mb-1">Preferences</h2>
+        <p className="text-white/60 text-sm mb-6">Control who appears in your Hiki Grids</p>
+        <div className="flex flex-col gap-1">
+          {PREF_ITEMS.map((item, i) => (
+            <div key={item.key}>
+              <div className="flex items-center justify-between py-4">
+                <div className="flex-1 pr-4">
+                  <p className="text-white text-sm font-semibold">{item.label}</p>
+                  <p className="text-white/55 text-xs mt-0.5">{item.desc}</p>
+                </div>
+                <Toggle on={prefs[item.key]} onToggle={() => onChange({ ...prefs, [item.key]: !prefs[item.key] })} />
+              </div>
+              {i < PREF_ITEMS.length - 1 && <div style={{ height: 1, background: 'rgba(255,255,255,0.06)' }} />}
+            </div>
+          ))}
+        </div>
+      </div>
+    </BottomSheet>
+  )
+}
+
+function AboutPanel({ prefs, onClose }) {
+  const activeFilters = [
+    prefs.orientation && 'sexual orientation',
+    prefs.age && 'age range',
+    prefs.location && 'location',
+    prefs.sameND && 'neurodivergence',
+  ].filter(Boolean)
+
+  return (
+    <BottomSheet onClose={onClose}>
+      <div className="px-6 overflow-y-auto" style={{ maxHeight: '75vh' }}>
+        <h2 className="text-white text-xl font-bold mb-1">About Hiki Grids</h2>
+        <p className="text-white/60 text-sm mb-6">A new way to find people on Hiki</p>
+
+        <div className="flex flex-col gap-4 mb-6">
+          {[
+            { icon: '📍', step: 'Pick a grid', desc: 'A new topic drops every day — energy, food, communication style, and more.' },
+            { icon: '👆', step: 'Place yourself', desc: 'Tap anywhere on the grid to show where you stand on the two axes.' },
+            { icon: '👀', step: 'See the board', desc: 'Once you place yourself, everyone else\'s dots are revealed.' },
+            { icon: '💬', step: 'Explore & connect', desc: 'Tap any dot to see their profile. Save up to 5 people to your list.' },
+          ].map((item, i) => (
+            <div key={i} className="flex items-start gap-4">
+              <div className="flex items-center justify-center rounded-xl flex-shrink-0 text-lg" style={{ width: 40, height: 40, background: 'rgba(255,55,95,0.1)', border: '1px solid rgba(255,55,95,0.2)' }}>
+                {item.icon}
+              </div>
+              <div>
+                <p className="text-white text-sm font-semibold mb-0.5">{item.step}</p>
+                <p className="text-white/65 text-sm leading-snug">{item.desc}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <div style={{ height: 1, background: 'rgba(255,255,255,0.06)', marginBottom: 20 }} />
+
+        <div className="flex items-start gap-3 rounded-2xl" style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)', padding: '12px 16px' }}>
+          <span style={{ fontSize: 16, marginTop: 1 }}>✓</span>
+          <p className="text-white/75 text-sm leading-snug">
+            {activeFilters.length > 0
+              ? <>Everyone you see is filtered by <strong className="text-white">{activeFilters.join(', ')}</strong>.</>
+              : 'No filters are currently active.'}
+          </p>
+        </div>
+      </div>
+    </BottomSheet>
   )
 }
 
@@ -111,6 +168,7 @@ export default function App() {
   const [mode, setMode] = useState('default') // 'friendship' | 'default' | 'romance'
   const [prefs, setPrefs] = useState({ orientation: true, age: true, location: true, sameND: false })
   const [prefsOpen, setPrefsOpen] = useState(false)
+  const [aboutOpen, setAboutOpen] = useState(false)
   const [activeBoard, setActiveBoard] = useState(boards[0])
   const [boardLocked, setBoardLocked] = useState(false)
   const [userPosition, setUserPosition] = useState(null)
@@ -238,7 +296,7 @@ export default function App() {
         onClick={() => setScreen('landing')}
       >
         {/* Top badge */}
-        <div className="flex justify-center pt-16 pb-8">
+        <div className="flex justify-center pt-12 pb-6">
           <div
             className="flex items-center gap-2 px-4 py-2 rounded-full text-sm font-semibold"
             style={{ background: 'rgba(255,55,95,0.15)', color: '#FF375F', border: '1px solid rgba(255,55,95,0.3)' }}
@@ -249,8 +307,8 @@ export default function App() {
         </div>
 
         {/* Hero */}
-        <div className="text-center mb-10">
-          <div style={{ fontSize: 64, lineHeight: 1, marginBottom: 20 }}>⊞</div>
+        <div className="text-center mb-8">
+          <div style={{ fontSize: 56, lineHeight: 1, marginBottom: 16 }}>⊞</div>
           <h1 className="text-4xl font-bold tracking-tight mb-3" style={{ lineHeight: 1.15 }}>
             Hiki Grids
           </h1>
@@ -259,32 +317,33 @@ export default function App() {
           </p>
         </div>
 
-        {/* Pre-filter notice */}
-        <div
-          className="w-full flex items-start gap-3 rounded-2xl mb-4"
-          style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)', padding: '12px 16px' }}
-          onClick={e => e.stopPropagation()}
-        >
-          <span style={{ fontSize: 18, marginTop: 1 }}>✓</span>
-          <div>
-            <p className="text-white/75 text-sm leading-snug">
-              Everyone you see is already filtered by{' '}
-              {[
-                prefs.orientation && <strong key="o" className="text-white">sexual orientation</strong>,
-                prefs.age && <strong key="a" className="text-white">age range</strong>,
-                prefs.location && <strong key="l" className="text-white">location</strong>,
-                prefs.sameND && <strong key="nd" className="text-white">neurodivergence</strong>,
-              ].filter(Boolean).reduce((acc, el, i, arr) => [
-                ...acc,
-                i > 0 ? (i === arr.length - 1 ? ' and ' : ', ') : '',
-                el,
-              ], [])}.
-            </p>
-          </div>
+        {/* Mode selector */}
+        <div className="w-full mb-6" onClick={e => e.stopPropagation()}>
+          <p className="text-xs text-white/50 font-medium mb-2 uppercase tracking-wide">I'm looking for</p>
+          <ModeSlider mode={mode} onChange={setMode} />
         </div>
 
+        {/* First-time filter setup */}
+        <div className="w-full mb-6 rounded-2xl" style={{ background: '#141414', border: '1px solid rgba(255,255,255,0.07)', padding: '4px 0' }} onClick={e => e.stopPropagation()}>
+          <p className="text-xs text-white/50 font-medium uppercase tracking-wide px-5 pt-4 pb-3">Show me people filtered by</p>
+          {PREF_ITEMS.map((item, i) => (
+            <div key={item.key}>
+              <div className="flex items-center justify-between px-5 py-3">
+                <p className="text-white text-sm font-medium">{item.label}</p>
+                <Toggle on={prefs[item.key]} onToggle={() => setPrefs(p => ({ ...p, [item.key]: !p[item.key] }))} />
+              </div>
+              {i < PREF_ITEMS.length - 1 && <div style={{ height: 1, background: 'rgba(255,255,255,0.06)', margin: '0 20px' }} />}
+            </div>
+          ))}
+        </div>
+
+        {/* Change anytime note */}
+        <p className="text-center text-white/45 text-xs mb-6" onClick={e => e.stopPropagation()}>
+          You can change these — and other preferences — anytime from the Grids screen.
+        </p>
+
         {/* Tap anywhere hint */}
-        <p className="text-center text-white/50 text-sm mt-2">tap anywhere to begin</p>
+        <p className="text-center text-white/50 text-sm">tap anywhere to begin</p>
       </div>
     )
   }
@@ -316,20 +375,25 @@ export default function App() {
             <h1 className="text-2xl font-bold tracking-tight">Hiki Grids</h1>
             <p className="text-white/75 text-xs mt-0.5">Today's matching board</p>
           </div>
-          <button
-            onClick={() => setPrefsOpen(true)}
-            className="flex items-center justify-center rounded-full flex-shrink-0 text-xs font-semibold"
-            style={{ height: 36, padding: '0 14px', background: 'rgba(255,255,255,0.08)', color: 'rgba(255,255,255,0.82)' }}
-          >
-            Preferences
-          </button>
+          <div className="flex gap-2 flex-shrink-0">
+            <button
+              onClick={() => setAboutOpen(true)}
+              className="flex items-center justify-center rounded-full text-xs font-semibold"
+              style={{ height: 36, padding: '0 14px', background: 'rgba(255,255,255,0.08)', color: 'rgba(255,255,255,0.82)' }}
+            >
+              About
+            </button>
+            <button
+              onClick={() => setPrefsOpen(true)}
+              className="flex items-center justify-center rounded-full text-xs font-semibold"
+              style={{ height: 36, padding: '0 14px', background: 'rgba(255,255,255,0.08)', color: 'rgba(255,255,255,0.82)' }}
+            >
+              Preferences
+            </button>
+          </div>
         </div>
+        {aboutOpen && <AboutPanel prefs={prefs} onClose={() => setAboutOpen(false)} />}
         {prefsOpen && <PrefsPanel prefs={prefs} onChange={setPrefs} onClose={() => setPrefsOpen(false)} />}
-
-        {/* Mode slider */}
-        <div className="w-full mb-3">
-          <ModeSlider mode={mode} onChange={setMode} />
-        </div>
 
         {/* Board selection label */}
         <div className="w-full flex items-center justify-between mb-2">
