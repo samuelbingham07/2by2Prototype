@@ -189,9 +189,9 @@ export default function App() {
 
   const modeText = {
     tagline: {
-      friendship: 'A new way to find friends on Hiki — based on where you both stand on the things that actually matter in a friendship.',
-      default:    'A new way to find people on Hiki — based on where you both stand on the things that actually matter.',
-      romance:    'A new way to find matches on Hiki — based on where you both stand on the things that actually matter in a relationship.',
+      friendship: 'A new way to match!',
+      default:    'A new way to match!',
+      romance:    'A new way to match!',
     },
     addBtn: {
       friendship: { idle: '+ Add Friend', done: '✓ Friend Added' },
