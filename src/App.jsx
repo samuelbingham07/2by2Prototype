@@ -131,7 +131,7 @@ function AboutPanel({ prefs, onClose }) {
             { icon: '📍', step: 'Pick a grid', desc: 'A new topic drops every day — energy, food, communication style, and more.' },
             { icon: '👆', step: 'Place yourself', desc: 'Tap anywhere on the grid to show where you stand on the two axes.' },
             { icon: '👀', step: 'See the board', desc: 'Once you place yourself, everyone else\'s dots are revealed.' },
-            { icon: '💬', step: 'Explore & connect', desc: 'Tap any dot to see their profile. Save up to 5 people to your list.' },
+            { icon: '💬', step: 'Build your list', desc: 'Tap dots to add up to 5 people. You only see initials — full profiles unlock when you finalize your list.' },
           ].map((item, i) => (
             <div key={i} className="flex items-start gap-4">
               <div className="flex items-center justify-center rounded-xl flex-shrink-0 text-lg" style={{ width: 40, height: 40, background: 'rgba(255,55,95,0.1)', border: '1px solid rgba(255,55,95,0.2)' }}>
@@ -192,7 +192,7 @@ export default function App() {
     },
     addBtn: {
       friendship: { idle: '+ Add Friend', done: '✓ Friend Added' },
-      any:        { idle: '+ Connect',    done: '✓ Connected' },
+      any:        { idle: 'Add +',         done: '✓ Added' },
       romance:    { idle: '🤍 Like',       done: '❤️ Liked' },
     },
     savedLabel: {
@@ -721,25 +721,28 @@ export default function App() {
       </div>
 
       <div
-        className="w-full flex items-center justify-between py-2.5 px-4 rounded-xl mb-4"
+        className="w-full rounded-xl mb-4 px-4 py-2.5"
         style={{ background: 'rgba(255,255,255,0.05)' }}
       >
-        <span className="text-sm text-white/80">
-          {savedProfiles.length === 0
-            ? 'Tap a dot · add up to 5 to your list'
-            : canSaveMore
-            ? `${savedProfiles.length}/5 saved — be selective`
-            : "List full · ready to connect"}
-        </span>
-        <div className="flex gap-1.5">
-          {Array.from({ length: MAX_PROFILES }).map((_, i) => (
-            <div
-              key={i}
-              className="rounded-full transition-all"
-              style={{ width: 8, height: 8, background: i < savedProfiles.length ? '#FF375F' : 'rgba(255,255,255,0.15)' }}
-            />
-          ))}
+        <div className="flex items-center justify-between mb-1">
+          <span className="text-sm text-white/80">
+            {savedProfiles.length === 0
+              ? 'Tap a dot to add to your list'
+              : canSaveMore
+              ? `${savedProfiles.length}/5 — keep going`
+              : 'List full · finalize to see full profiles'}
+          </span>
+          <div className="flex gap-1.5">
+            {Array.from({ length: MAX_PROFILES }).map((_, i) => (
+              <div
+                key={i}
+                className="rounded-full transition-all"
+                style={{ width: 8, height: 8, background: i < savedProfiles.length ? '#FF375F' : 'rgba(255,255,255,0.15)' }}
+              />
+            ))}
+          </div>
         </div>
+        <p className="text-xs text-white/45">Build your list first — you'll see full profiles when you finalize</p>
       </div>
 
       <div className="w-full" style={{ paddingLeft: 32, paddingBottom: 32 }}>
@@ -762,19 +765,27 @@ export default function App() {
               const u = users.find(u => u.id === id)
               if (!u) return null
               return (
-                <button
-                  key={u.id}
-                  onClick={() => setActiveProfile(u)}
-                  className="flex-shrink-0 flex flex-col items-center gap-1.5 active:scale-95 transition-transform"
-                >
-                  <div
-                    className="flex items-center justify-center rounded-2xl text-2xl"
-                    style={{ width: 52, height: 52, background: `${u.color}22`, border: `2px solid ${u.color}55` }}
+                <div key={u.id} className="flex-shrink-0 flex flex-col items-center gap-1.5 relative">
+                  <button
+                    onClick={() => setActiveProfile(u)}
+                    className="relative active:scale-95 transition-transform"
                   >
-                    {u.emoji}
-                  </div>
+                    <div
+                      className="flex items-center justify-center rounded-2xl font-bold text-lg"
+                      style={{ width: 52, height: 52, background: `${u.color}22`, border: `2px solid ${u.color}55`, color: u.color }}
+                    >
+                      {u.name[0]}
+                    </div>
+                    <button
+                      onClick={e => { e.stopPropagation(); setSavedProfiles(prev => prev.filter(sid => sid !== u.id)) }}
+                      className="absolute -top-1.5 -right-1.5 flex items-center justify-center rounded-full"
+                      style={{ width: 18, height: 18, background: '#FF375F', color: '#fff', fontSize: 10, fontWeight: 700, border: '2px solid #0A0A0A' }}
+                    >
+                      ✕
+                    </button>
+                  </button>
                   <span className="text-xs text-white/80">{u.name}</span>
-                </button>
+                </div>
               )
             })}
           </div>

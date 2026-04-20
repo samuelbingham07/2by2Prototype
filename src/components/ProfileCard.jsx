@@ -1,4 +1,4 @@
-export default function ProfileCard({ user, activeBoard, onClose, onSave, isSaved, canSave, addBtnText = { idle: '+ Add to my list', done: '✓ Added to your list' } }) {
+export default function ProfileCard({ user, activeBoard, onClose, onSave, isSaved, canSave, finalized = false, addBtnText = { idle: '+ Add to my list', done: '✓ Added to your list' } }) {
   const pos = user.positions[activeBoard.id]
 
   return (
@@ -40,10 +40,10 @@ export default function ProfileCard({ user, activeBoard, onClose, onSave, isSave
           {/* Avatar + name */}
           <div className="flex items-center gap-4 mb-5">
             <div
-              className="flex items-center justify-center rounded-2xl text-4xl"
-              style={{ width: 72, height: 72, background: `${user.color}22`, border: `2px solid ${user.color}44` }}
+              className="flex items-center justify-center rounded-2xl font-bold"
+              style={{ width: 72, height: 72, background: `${user.color}22`, border: `2px solid ${user.color}44`, fontSize: finalized ? 36 : 28, color: finalized ? undefined : user.color }}
             >
-              {user.emoji}
+              {finalized ? user.emoji : user.name[0]}
             </div>
             <div>
               <div className="flex items-baseline gap-2">
