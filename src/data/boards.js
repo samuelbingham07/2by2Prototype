@@ -55,4 +55,12 @@ export const boards = [
     xAxis: { left: 'Work to Live', right: 'Live to Work' },
     yAxis: { bottom: 'Go with the Flow', top: 'Goal Crusher' },
   },
+  {
+    id: 'neurodivergent-match',
+    emoji: '🧠',
+    title: 'Neurodivergent matching',
+    subtitle: 'Matched to others with the same compatibility preferences',
+    xAxis: { left: 'Same ND', right: 'Different ND' },
+    yAxis: { bottom: 'Different Comm Style', top: 'Same Comm Style' },
+  },
 ]
