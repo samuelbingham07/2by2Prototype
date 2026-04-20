@@ -209,7 +209,7 @@ export default function App() {
         >
           <span style={{ fontSize: 18 }}>✓</span>
           <p className="text-white/75 text-sm leading-snug">
-            Everyone you see is already filtered by your <strong className="text-white">sexual orientation</strong> and <strong className="text-white">age range</strong>.
+            Everyone you see is already filtered by your <strong className="text-white">sexual orientation</strong>, <strong className="text-white">age range</strong>, and <strong className="text-white">location</strong>.
           </p>
         </div>
 
