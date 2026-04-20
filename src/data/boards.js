@@ -1,15 +1,4 @@
-export const PERMANENT_BOARD_ID = 'neurodivergent-match'
-
 export const boards = [
-  {
-    id: 'neurodivergent-match',
-    emoji: '🧠',
-    title: 'Neurodivergent matching',
-    subtitle: 'Matched to others with the same compatibility preferences',
-    xAxis: { left: 'Same ND', right: 'Different ND' },
-    yAxis: { bottom: 'Different Comm Style', top: 'Same Comm Style' },
-    permanent: true,
-  },
   {
     id: 'energy-timing',
     day: 'Mon',

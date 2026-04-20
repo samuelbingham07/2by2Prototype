@@ -24,7 +24,6 @@ const profiles = [
       'relationship-style':  { x: 58, y: 72 },
       'communication':       { x: 30, y: 45 },
       'ambition':            { x: 38, y: 55 },
-      'neurodivergent-match': { x: 22, y: 72 },
     },
   },
   {
@@ -43,7 +42,6 @@ const profiles = [
       'relationship-style':  { x: 68, y: 62 },
       'communication':       { x: 38, y: 78 },
       'ambition':            { x: 82, y: 85 },
-      'neurodivergent-match': { x: 75, y: 68 },
     },
   },
   {
@@ -62,7 +60,6 @@ const profiles = [
       'relationship-style':  { x: 45, y: 32 },
       'communication':       { x: 72, y: 28 },
       'ambition':            { x: 48, y: 38 },
-      'neurodivergent-match': { x: 28, y: 32 },
     },
   },
   {
@@ -81,7 +78,6 @@ const profiles = [
       'relationship-style':  { x: 52, y: 78 },
       'communication':       { x: 25, y: 62 },
       'ambition':            { x: 55, y: 72 },
-      'neurodivergent-match': { x: 18, y: 78 },
     },
   },
   {
@@ -100,7 +96,6 @@ const profiles = [
       'relationship-style':  { x: 72, y: 55 },
       'communication':       { x: 68, y: 55 },
       'ambition':            { x: 72, y: 88 },
-      'neurodivergent-match': { x: 82, y: 35 },
     },
   },
   {
@@ -119,7 +114,6 @@ const profiles = [
       'relationship-style':  { x: 42, y: 48 },
       'communication':       { x: 22, y: 22 },
       'ambition':            { x: 35, y: 62 },
-      'neurodivergent-match': { x: 72, y: 25 },
     },
   },
   {
@@ -138,7 +132,6 @@ const profiles = [
       'relationship-style':  { x: 55, y: 68 },
       'communication':       { x: 78, y: 68 },
       'ambition':            { x: 62, y: 65 },
-      'neurodivergent-match': { x: 35, y: 62 },
     },
   },
   {
@@ -157,7 +150,6 @@ const profiles = [
       'relationship-style':  { x: 62, y: 58 },
       'communication':       { x: 28, y: 35 },
       'ambition':            { x: 45, y: 48 },
-      'neurodivergent-match': { x: 78, y: 72 },
     },
   },
   {
@@ -176,7 +168,6 @@ const profiles = [
       'relationship-style':  { x: 48, y: 65 },
       'communication':       { x: 45, y: 82 },
       'ambition':            { x: 92, y: 88 },
-      'neurodivergent-match': { x: 25, y: 55 },
     },
   },
   {
@@ -195,7 +186,6 @@ const profiles = [
       'relationship-style':  { x: 65, y: 72 },
       'communication':       { x: 15, y: 18 },
       'ambition':            { x: 28, y: 58 },
-      'neurodivergent-match': { x: 15, y: 82 },
     },
   },
   {
@@ -214,7 +204,6 @@ const profiles = [
       'relationship-style':  { x: 38, y: 62 },
       'communication':       { x: 35, y: 65 },
       'ambition':            { x: 58, y: 68 },
-      'neurodivergent-match': { x: 32, y: 75 },
     },
   },
   {
@@ -233,7 +222,6 @@ const profiles = [
       'relationship-style':  { x: 25, y: 38 },
       'communication':       { x: 22, y: 45 },
       'ambition':            { x: 68, y: 78 },
-      'neurodivergent-match': { x: 85, y: 42 },
     },
   },
   {
@@ -252,7 +240,6 @@ const profiles = [
       'relationship-style':  { x: 78, y: 62 },
       'communication':       { x: 58, y: 38 },
       'ambition':            { x: 42, y: 72 },
-      'neurodivergent-match': { x: 62, y: 78 },
     },
   },
   {
@@ -271,7 +258,6 @@ const profiles = [
       'relationship-style':  { x: 62, y: 80 },
       'communication':       { x: 65, y: 72 },
       'ambition':            { x: 55, y: 78 },
-      'neurodivergent-match': { x: 42, y: 58 },
     },
   },
   {
@@ -290,7 +276,6 @@ const profiles = [
       'relationship-style':  { x: 55, y: 65 },
       'communication':       { x: 18, y: 28 },
       'ambition':            { x: 32, y: 52 },
-      'neurodivergent-match': { x: 55, y: 30 },
     },
   },
 ]

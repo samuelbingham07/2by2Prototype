@@ -49,9 +49,68 @@ function ModeSlider({ mode, onChange }) {
   )
 }
 
+function Toggle({ on, onToggle }) {
+  return (
+    <button
+      onClick={onToggle}
+      style={{
+        width: 44, height: 26, borderRadius: 999, border: 'none', cursor: 'pointer', flexShrink: 0,
+        background: on ? '#FF375F' : 'rgba(255,255,255,0.15)',
+        position: 'relative', transition: 'background 0.2s',
+      }}
+    >
+      <div style={{
+        position: 'absolute', top: 3, left: on ? 21 : 3,
+        width: 20, height: 20, borderRadius: '50%', background: '#fff',
+        transition: 'left 0.2s', boxShadow: '0 1px 4px rgba(0,0,0,0.3)',
+      }} />
+    </button>
+  )
+}
+
+function PrefsPanel({ prefs, onChange, onClose }) {
+  const items = [
+    { key: 'orientation', label: 'Sexual orientation', desc: 'Only show compatible orientations' },
+    { key: 'age',         label: 'Age range',          desc: 'Filter to your preferred age range' },
+    { key: 'location',    label: 'Location',            desc: 'Show people near you' },
+    { key: 'sameND',      label: 'Same neurodivergence', desc: 'Only show people with a similar ND profile' },
+  ]
+  return (
+    <>
+      <div className="fixed inset-0 fade-in" style={{ background: 'rgba(0,0,0,0.6)', zIndex: 40, backdropFilter: 'blur(4px)' }} onClick={onClose} />
+      <div className="fixed left-0 right-0 bottom-0 slide-up" style={{ zIndex: 50, background: '#1C1C1E', borderRadius: '28px 28px 0 0', padding: '8px 0 40px', maxWidth: 480, margin: '0 auto' }}>
+        <div className="flex justify-center pt-2 pb-4">
+          <div style={{ width: 40, height: 4, borderRadius: 2, background: 'rgba(255,255,255,0.2)' }} />
+        </div>
+        <button onClick={onClose} className="absolute top-4 right-4 flex items-center justify-center rounded-full text-white/85" style={{ width: 32, height: 32, background: 'rgba(255,255,255,0.1)' }}>✕</button>
+        <div className="px-6">
+          <h2 className="text-white text-xl font-bold mb-1">Preferences</h2>
+          <p className="text-white/60 text-sm mb-6">Control who appears in your 2by2 boards</p>
+          <div className="flex flex-col gap-1">
+            {items.map((item, i) => (
+              <div key={item.key}>
+                <div className="flex items-center justify-between py-4">
+                  <div className="flex-1 pr-4">
+                    <p className="text-white text-sm font-semibold">{item.label}</p>
+                    <p className="text-white/55 text-xs mt-0.5">{item.desc}</p>
+                  </div>
+                  <Toggle on={prefs[item.key]} onToggle={() => onChange({ ...prefs, [item.key]: !prefs[item.key] })} />
+                </div>
+                {i < items.length - 1 && <div style={{ height: 1, background: 'rgba(255,255,255,0.06)' }} />}
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </>
+  )
+}
+
 export default function App() {
   const [screen, setScreen] = useState('intro') // 'intro' | 'landing' | 'revealed' | 'finished'
   const [mode, setMode] = useState('default') // 'friendship' | 'default' | 'romance'
+  const [prefs, setPrefs] = useState({ orientation: true, age: true, location: true, sameND: false })
+  const [prefsOpen, setPrefsOpen] = useState(false)
   const [activeBoard, setActiveBoard] = useState(boards[0])
   const [boardLocked, setBoardLocked] = useState(false)
   const [userPosition, setUserPosition] = useState(null)
@@ -202,14 +261,26 @@ export default function App() {
 
         {/* Pre-filter notice */}
         <div
-          className="w-full flex items-center gap-3 rounded-2xl mb-6"
+          className="w-full flex items-start gap-3 rounded-2xl mb-4"
           style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)', padding: '12px 16px' }}
           onClick={e => e.stopPropagation()}
         >
-          <span style={{ fontSize: 18 }}>✓</span>
-          <p className="text-white/75 text-sm leading-snug">
-            Everyone you see is already filtered by your <strong className="text-white">sexual orientation</strong>, <strong className="text-white">age range</strong>, and <strong className="text-white">location</strong>.
-          </p>
+          <span style={{ fontSize: 18, marginTop: 1 }}>✓</span>
+          <div>
+            <p className="text-white/75 text-sm leading-snug">
+              Everyone you see is already filtered by{' '}
+              {[
+                prefs.orientation && <strong key="o" className="text-white">sexual orientation</strong>,
+                prefs.age && <strong key="a" className="text-white">age range</strong>,
+                prefs.location && <strong key="l" className="text-white">location</strong>,
+                prefs.sameND && <strong key="nd" className="text-white">neurodivergence</strong>,
+              ].filter(Boolean).reduce((acc, el, i, arr) => [
+                ...acc,
+                i > 0 ? (i === arr.length - 1 ? ' and ' : ', ') : '',
+                el,
+              ], [])}.
+            </p>
+          </div>
         </div>
 
         {/* Tap anywhere hint */}
@@ -245,7 +316,15 @@ export default function App() {
             <h1 className="text-2xl font-bold tracking-tight">2by2</h1>
             <p className="text-white/75 text-xs mt-0.5">Today's matching board</p>
           </div>
+          <button
+            onClick={() => setPrefsOpen(true)}
+            className="flex items-center justify-center rounded-full flex-shrink-0"
+            style={{ width: 36, height: 36, background: 'rgba(255,255,255,0.08)', fontSize: 16 }}
+          >
+            ⚙️
+          </button>
         </div>
+        {prefsOpen && <PrefsPanel prefs={prefs} onChange={setPrefs} onClose={() => setPrefsOpen(false)} />}
 
         {/* Mode slider */}
         <div className="w-full mb-3">
@@ -267,7 +346,6 @@ export default function App() {
         <div className="w-full flex gap-2 overflow-x-auto pb-3 hide-scrollbar">
           {boards.map(board => {
             const isActive = activeBoard.id === board.id
-            const isPermanent = board.permanent
             return (
               <button
                 key={board.id}
@@ -276,9 +354,9 @@ export default function App() {
                 style={{
                   paddingTop: 6,
                   paddingBottom: 6,
-                  background: isActive ? '#FF375F' : isPermanent ? 'rgba(255,55,95,0.12)' : 'rgba(255,255,255,0.08)',
-                  color: isActive ? '#fff' : isPermanent ? '#FF375F' : 'rgba(255,255,255,0.82)',
-                  border: isPermanent && !isActive ? '1px solid rgba(255,55,95,0.3)' : 'none',
+                  background: isActive ? '#FF375F' : 'rgba(255,255,255,0.08)',
+                  color: isActive ? '#fff' : 'rgba(255,255,255,0.82)',
+                  border: 'none',
                   cursor: 'pointer',
                 }}
               >
@@ -287,7 +365,7 @@ export default function App() {
                   <span>{board.title.split(' ').slice(0, 2).join(' ')}</span>
                 </div>
                 <span style={{ fontSize: 9, opacity: 0.7, fontWeight: 500, letterSpacing: '0.03em' }}>
-                  {isPermanent ? 'Always' : board.day}
+                  {board.day}
                 </span>
               </button>
             )
