@@ -387,7 +387,7 @@ export default function App() {
               <span className="text-xs font-semibold" style={{ color: '#FF375F' }}>🔒 In the app, you'd only get one daily board</span>
             </div>
           ) : (
-            <p className="text-xs text-white/75 font-medium">New daily board every day · pick one</p>
+            <p className="text-xs text-white/75 font-medium">New board every day — try out the entire week! <span style={{ color: 'rgba(255,255,255,0.4)' }}>(demo only)</span></p>
           )}
         </div>
 
