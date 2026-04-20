@@ -1,4 +1,4 @@
-export default function ProfileCard({ user, activeBoard, onClose, onSave, isSaved, canSave }) {
+export default function ProfileCard({ user, activeBoard, onClose, onSave, isSaved, canSave, addBtnText = { idle: '+ Add to my list', done: '✓ Added to your list' } }) {
   const pos = user.positions[activeBoard.id]
 
   return (
@@ -117,7 +117,7 @@ export default function ProfileCard({ user, activeBoard, onClose, onSave, isSave
               className="w-full py-3.5 rounded-2xl text-center text-sm font-semibold"
               style={{ background: 'rgba(255,55,95,0.15)', color: '#FF375F', border: '1px solid rgba(255,55,95,0.3)' }}
             >
-              ✓ Added to your list
+              {addBtnText.done}
             </div>
           ) : canSave ? (
             <button
@@ -125,7 +125,7 @@ export default function ProfileCard({ user, activeBoard, onClose, onSave, isSave
               className="w-full py-3.5 rounded-2xl text-white font-bold text-sm transition-all active:scale-95"
               style={{ background: '#FF375F', boxShadow: '0 4px 16px rgba(255,55,95,0.35)' }}
             >
-              + Add to my list
+              {addBtnText.idle}
             </button>
           ) : (
             <div

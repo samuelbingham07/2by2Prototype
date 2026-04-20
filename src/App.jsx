@@ -6,8 +6,53 @@ import ProfileCard from './components/ProfileCard'
 
 const MAX_PROFILES = 5
 
+const MODE_OPTIONS = [
+  { value: 'friendship', label: 'Friendship' },
+  { value: 'default',    label: 'Default' },
+  { value: 'romance',    label: 'Romance' },
+]
+
+function ModeSlider({ mode, onChange }) {
+  return (
+    <div
+      onClick={e => e.stopPropagation()}
+      style={{
+        display: 'flex',
+        background: 'rgba(255,255,255,0.08)',
+        borderRadius: 999,
+        padding: 3,
+        gap: 2,
+        width: '100%',
+        maxWidth: 280,
+      }}
+    >
+      {MODE_OPTIONS.map(opt => (
+        <button
+          key={opt.value}
+          onClick={() => onChange(opt.value)}
+          style={{
+            flex: 1,
+            padding: '6px 0',
+            borderRadius: 999,
+            border: 'none',
+            fontSize: 12,
+            fontWeight: 600,
+            cursor: 'pointer',
+            transition: 'background 0.2s, color 0.2s',
+            background: mode === opt.value ? '#FF375F' : 'transparent',
+            color: mode === opt.value ? '#fff' : 'rgba(255,255,255,0.5)',
+          }}
+        >
+          {opt.label}
+        </button>
+      ))}
+    </div>
+  )
+}
+
 export default function App() {
   const [screen, setScreen] = useState('intro') // 'intro' | 'landing' | 'revealed' | 'finished'
+  const [mode, setMode] = useState('default') // 'friendship' | 'default' | 'romance'
   const [activeBoard, setActiveBoard] = useState(boards[0])
   const [boardLocked, setBoardLocked] = useState(false)
   const [userPosition, setUserPosition] = useState(null)
@@ -25,6 +70,34 @@ export default function App() {
   const boardUsers = users.filter(u => u.positions[activeBoard.id])
   const canSaveMore = savedProfiles.length < MAX_PROFILES
   const pickedUsers = savedProfiles.map(id => users.find(u => u.id === id)).filter(Boolean)
+
+  const modeText = {
+    tagline: {
+      friendship: 'A new way to find friends on Hiki — based on where you both stand on the things that actually matter in a friendship.',
+      default:    'A new way to find people on Hiki — based on where you both stand on the things that actually matter.',
+      romance:    'A new way to find matches on Hiki — based on where you both stand on the things that actually matter in a relationship.',
+    },
+    addBtn: {
+      friendship: { idle: '+ Add Friend', done: '✓ Friend Added' },
+      default:    { idle: '+ Connect',    done: '✓ Connected' },
+      romance:    { idle: '🤍 Like',       done: '❤️ Liked' },
+    },
+    savedLabel: {
+      friendship: 'Added',
+      default:    'Connected',
+      romance:    'Liked',
+    },
+    finishedDesc: {
+      friendship: 'Add friends, message, or pass — anyone you connect with will appear in your Hiki inbox.',
+      default:    'Connect, message, or pass — anyone you reach out to will appear in your Hiki inbox.',
+      romance:    'Like, message, or pass — anyone you connect with will appear in your Hiki inbox.',
+    },
+    finishCta: {
+      friendship: 'See your 5 picks → Add friends & connect',
+      default:    'See your 5 picks → Connect & message',
+      romance:    'See your 5 picks → Like, message & connect',
+    },
+  }
 
   const handleDotClick = (user) => {
     if (!viewedProfiles.includes(user.id)) {
@@ -107,8 +180,13 @@ export default function App() {
         }}
         onClick={() => setScreen('landing')}
       >
+        {/* Mode slider */}
+        <div className="flex justify-center pt-10 pb-2" onClick={e => e.stopPropagation()}>
+          <ModeSlider mode={mode} onChange={setMode} />
+        </div>
+
         {/* Top badge */}
-        <div className="flex justify-center pt-16 pb-8">
+        <div className="flex justify-center pt-8 pb-8">
           <div
             className="flex items-center gap-2 px-4 py-2 rounded-full text-sm font-semibold"
             style={{ background: 'rgba(255,55,95,0.15)', color: '#FF375F', border: '1px solid rgba(255,55,95,0.3)' }}
@@ -125,7 +203,7 @@ export default function App() {
             Introducing<br />2by2 Matching
           </h1>
           <p className="text-white/80 text-base leading-relaxed" style={{ maxWidth: 320, margin: '0 auto' }}>
-            A new way to find friends on Hiki — based on where you both stand on the things that actually matter in a friendship.
+            {modeText.tagline[mode]}
           </p>
         </div>
 
@@ -291,14 +369,14 @@ export default function App() {
             <h1 className="text-2xl font-bold tracking-tight">Your 5 picks</h1>
           </div>
           <p className="text-white/80 text-sm leading-relaxed">
-            Add friend, message, or pass — anyone you connect with will appear in your Hiki inbox.
+            {modeText.finishedDesc[mode]}
           </p>
         </div>
 
         {/* Stats row */}
         <div className="flex gap-3 mt-4 mb-6">
           {[
-            { label: 'Added', count: likedProfiles.size, color: '#FF375F' },
+            { label: modeText.savedLabel[mode], count: likedProfiles.size, color: '#FF375F' },
             { label: 'Messaged', count: sentMessages.size, color: '#3B82F6' },
             { label: 'Passed', count: passedProfiles.size, color: 'rgba(255,255,255,0.3)' },
           ].map(stat => (
@@ -347,7 +425,7 @@ export default function App() {
                     <div className="flex items-baseline gap-2">
                       <span className="font-bold text-base">{user.name}</span>
                       <span className="text-white/75 text-sm">{user.age}</span>
-                      {isLiked && <span className="text-xs ml-auto" style={{ color: '#FF375F' }}>Added ✓</span>}
+                      {isLiked && <span className="text-xs ml-auto" style={{ color: '#FF375F' }}>{modeText.addBtn[mode].done}</span>}
                       {isSent && !isLiked && <span className="text-xs ml-auto" style={{ color: '#3B82F6' }}>Sent 💬</span>}
                     </div>
                     <p className="text-white/75 text-xs mt-0.5 leading-snug" style={{ overflow: 'hidden', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical' }}>
@@ -365,7 +443,7 @@ export default function App() {
                       border: isLiked ? '1px solid rgba(255,55,95,0.4)' : '1px solid transparent',
                     }}
                   >
-                    {isLiked ? '✓ Friend Added' : '+ Add Friend'}
+                    {isLiked ? modeText.addBtn[mode].done : modeText.addBtn[mode].idle}
                   </button>
                   <button
                     onClick={() => { setComposingFor(user); setMessageText('') }}
@@ -575,7 +653,7 @@ export default function App() {
             className="w-full py-4 rounded-2xl text-white font-bold text-base transition-all active:scale-95"
             style={{ background: 'linear-gradient(135deg, #FF375F, #FF6B9D)', boxShadow: '0 4px 24px rgba(255,55,95,0.45)' }}
           >
-            See your 5 picks → Add friends &amp; connect
+            {modeText.finishCta[mode]}
           </button>
           <p className="text-center text-white/60 text-xs mt-3">
             Your connections will appear in your Hiki inbox
@@ -593,6 +671,7 @@ export default function App() {
           onSave={handleSaveProfile}
           isSaved={savedProfiles.includes(activeProfile.id)}
           canSave={canSaveMore}
+          addBtnText={modeText.addBtn[mode]}
         />
       )}
     </div>
