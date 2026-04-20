@@ -8,38 +8,31 @@ const MAX_PROFILES = 5
 
 const MODE_OPTIONS = [
   { value: 'friendship', label: 'Friendship' },
-  { value: 'default',    label: 'Default' },
+  { value: 'any',        label: 'Any' },
   { value: 'romance',    label: 'Romance' },
 ]
 
-function ModeSlider({ mode, onChange }) {
+const ND_OPTIONS = [
+  { value: 'different', label: 'Different ND' },
+  { value: 'any',       label: 'Any' },
+  { value: 'same',      label: 'Same ND' },
+]
+
+function SegmentedSlider({ value, onChange, options }) {
   return (
     <div
       onClick={e => e.stopPropagation()}
-      style={{
-        display: 'flex',
-        background: 'rgba(255,255,255,0.08)',
-        borderRadius: 999,
-        padding: 3,
-        gap: 2,
-        width: '100%',
-      }}
+      style={{ display: 'flex', background: 'rgba(255,255,255,0.08)', borderRadius: 999, padding: 3, gap: 2, width: '100%' }}
     >
-      {MODE_OPTIONS.map(opt => (
+      {options.map(opt => (
         <button
           key={opt.value}
           onClick={() => onChange(opt.value)}
           style={{
-            flex: 1,
-            padding: '6px 0',
-            borderRadius: 999,
-            border: 'none',
-            fontSize: 12,
-            fontWeight: 600,
-            cursor: 'pointer',
-            transition: 'background 0.2s, color 0.2s',
-            background: mode === opt.value ? '#FF375F' : 'transparent',
-            color: mode === opt.value ? '#fff' : 'rgba(255,255,255,0.5)',
+            flex: 1, padding: '6px 0', borderRadius: 999, border: 'none', fontSize: 12, fontWeight: 600,
+            cursor: 'pointer', transition: 'background 0.2s, color 0.2s',
+            background: value === opt.value ? '#FF375F' : 'transparent',
+            color: value === opt.value ? '#fff' : 'rgba(255,255,255,0.5)',
           }}
         >
           {opt.label}
@@ -72,7 +65,6 @@ const PREF_ITEMS = [
   { key: 'orientation', label: 'Sexual orientation', desc: 'Only show compatible orientations' },
   { key: 'age',         label: 'Age range',          desc: 'Filter to your preferred age range' },
   { key: 'location',    label: 'Location',            desc: 'Show people near you' },
-  { key: 'sameND',      label: 'Same neurodivergence', desc: 'Only show people with a similar ND profile' },
 ]
 
 function BottomSheet({ onClose, children }) {
@@ -106,9 +98,14 @@ function PrefsPanel({ prefs, onChange, onClose }) {
                 </div>
                 <Toggle on={prefs[item.key]} onToggle={() => onChange({ ...prefs, [item.key]: !prefs[item.key] })} />
               </div>
-              {i < PREF_ITEMS.length - 1 && <div style={{ height: 1, background: 'rgba(255,255,255,0.06)' }} />}
+              <div style={{ height: 1, background: 'rgba(255,255,255,0.06)' }} />
             </div>
           ))}
+          <div className="py-4">
+            <p className="text-white text-sm font-semibold mb-0.5">Neurodivergence</p>
+            <p className="text-white/55 text-xs mb-3">Filter by ND similarity</p>
+            <SegmentedSlider value={prefs.ndPref} onChange={v => onChange({ ...prefs, ndPref: v })} options={ND_OPTIONS} />
+          </div>
         </div>
       </div>
     </BottomSheet>
@@ -120,7 +117,7 @@ function AboutPanel({ prefs, onClose }) {
     prefs.orientation && 'sexual orientation',
     prefs.age && 'age range',
     prefs.location && 'location',
-    prefs.sameND && 'neurodivergence',
+    prefs.ndPref !== 'any' && `${prefs.ndPref} neurodivergence`,
   ].filter(Boolean)
 
   return (
@@ -165,8 +162,8 @@ function AboutPanel({ prefs, onClose }) {
 
 export default function App() {
   const [screen, setScreen] = useState('intro') // 'intro' | 'landing' | 'revealed' | 'finished'
-  const [mode, setMode] = useState('default') // 'friendship' | 'default' | 'romance'
-  const [prefs, setPrefs] = useState({ orientation: true, age: true, location: true, sameND: false })
+  const [mode, setMode] = useState('any') // 'friendship' | 'any' | 'romance'
+  const [prefs, setPrefs] = useState({ orientation: true, age: true, location: true, ndPref: 'any' })
   const [prefsOpen, setPrefsOpen] = useState(false)
   const [aboutOpen, setAboutOpen] = useState(false)
   const [activeBoard, setActiveBoard] = useState(boards[0])
@@ -190,27 +187,27 @@ export default function App() {
   const modeText = {
     tagline: {
       friendship: 'A new way to match!',
-      default:    'A new way to match!',
+      any:        'A new way to match!',
       romance:    'A new way to match!',
     },
     addBtn: {
       friendship: { idle: '+ Add Friend', done: '✓ Friend Added' },
-      default:    { idle: '+ Connect',    done: '✓ Connected' },
+      any:        { idle: '+ Connect',    done: '✓ Connected' },
       romance:    { idle: '🤍 Like',       done: '❤️ Liked' },
     },
     savedLabel: {
       friendship: 'Added',
-      default:    'Connected',
+      any:        'Connected',
       romance:    'Liked',
     },
     finishedDesc: {
       friendship: 'Add friends, message, or pass — anyone you connect with will appear in your Hiki inbox.',
-      default:    'Connect, message, or pass — anyone you reach out to will appear in your Hiki inbox.',
+      any:        'Connect, message, or pass — anyone you reach out to will appear in your Hiki inbox.',
       romance:    'Like, message, or pass — anyone you connect with will appear in your Hiki inbox.',
     },
     finishCta: {
       friendship: 'See your 5 picks → Add friends & connect',
-      default:    'See your 5 picks → Connect & message',
+      any:        'See your 5 picks → Connect & message',
       romance:    'See your 5 picks → Like, message & connect',
     },
   }
@@ -307,23 +304,15 @@ export default function App() {
         </div>
 
         {/* Mode selector */}
-        <div className="w-full mb-6" onClick={e => e.stopPropagation()}>
+        <div className="w-full mb-5" onClick={e => e.stopPropagation()}>
           <p className="text-xs text-white/50 font-medium mb-2 uppercase tracking-wide">I'm looking for</p>
-          <ModeSlider mode={mode} onChange={setMode} />
+          <SegmentedSlider value={mode} onChange={setMode} options={MODE_OPTIONS} />
         </div>
 
-        {/* First-time filter setup */}
-        <div className="w-full mb-6 rounded-2xl" style={{ background: '#141414', border: '1px solid rgba(255,255,255,0.07)', padding: '4px 0' }} onClick={e => e.stopPropagation()}>
-          <p className="text-xs text-white/50 font-medium uppercase tracking-wide px-5 pt-4 pb-3">Show me people filtered by</p>
-          {PREF_ITEMS.map((item, i) => (
-            <div key={item.key}>
-              <div className="flex items-center justify-between px-5 py-3">
-                <p className="text-white text-sm font-medium">{item.label}</p>
-                <Toggle on={prefs[item.key]} onToggle={() => setPrefs(p => ({ ...p, [item.key]: !p[item.key] }))} />
-              </div>
-              {i < PREF_ITEMS.length - 1 && <div style={{ height: 1, background: 'rgba(255,255,255,0.06)', margin: '0 20px' }} />}
-            </div>
-          ))}
+        {/* ND preference */}
+        <div className="w-full mb-6" onClick={e => e.stopPropagation()}>
+          <p className="text-xs text-white/50 font-medium mb-2 uppercase tracking-wide">Neurodivergence</p>
+          <SegmentedSlider value={prefs.ndPref} onChange={v => setPrefs(p => ({ ...p, ndPref: v }))} options={ND_OPTIONS} />
         </div>
 
         {/* Change anytime note */}
