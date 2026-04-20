@@ -23,7 +23,6 @@ function ModeSlider({ mode, onChange }) {
         padding: 3,
         gap: 2,
         width: '100%',
-        maxWidth: 280,
       }}
     >
       {MODE_OPTIONS.map(opt => (
@@ -180,13 +179,8 @@ export default function App() {
         }}
         onClick={() => setScreen('landing')}
       >
-        {/* Mode slider */}
-        <div className="flex justify-center pt-10 pb-2" onClick={e => e.stopPropagation()}>
-          <ModeSlider mode={mode} onChange={setMode} />
-        </div>
-
         {/* Top badge */}
-        <div className="flex justify-center pt-8 pb-8">
+        <div className="flex justify-center pt-16 pb-8">
           <div
             className="flex items-center gap-2 px-4 py-2 rounded-full text-sm font-semibold"
             style={{ background: 'rgba(255,55,95,0.15)', color: '#FF375F', border: '1px solid rgba(255,55,95,0.3)' }}
@@ -240,13 +234,11 @@ export default function App() {
             <h1 className="text-2xl font-bold tracking-tight">2by2</h1>
             <p className="text-white/75 text-xs mt-0.5">Today's matching board</p>
           </div>
-          <button
-            onClick={() => setScreen('intro')}
-            className="text-xs font-medium px-3 py-1.5 rounded-full flex-shrink-0"
-            style={{ background: 'rgba(255,55,95,0.12)', color: '#FF375F' }}
-          >
-            About
-          </button>
+        </div>
+
+        {/* Mode slider */}
+        <div className="w-full mb-3">
+          <ModeSlider mode={mode} onChange={setMode} />
         </div>
 
         {/* Board selection label */}
