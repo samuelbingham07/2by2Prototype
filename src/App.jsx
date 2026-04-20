@@ -252,7 +252,7 @@ export default function App() {
         <div className="text-center mb-10">
           <div style={{ fontSize: 64, lineHeight: 1, marginBottom: 20 }}>⊞</div>
           <h1 className="text-4xl font-bold tracking-tight mb-3" style={{ lineHeight: 1.15 }}>
-            Introducing<br />Hiki Grids
+            Hiki Grids
           </h1>
           <p className="text-white/80 text-base leading-relaxed" style={{ maxWidth: 320, margin: '0 auto' }}>
             {modeText.tagline[mode]}
