@@ -13,9 +13,8 @@ const MODE_OPTIONS = [
 ]
 
 const ND_OPTIONS = [
-  { value: 'different', label: 'Different ND' },
-  { value: 'any',       label: 'Any' },
-  { value: 'same',      label: 'Same ND' },
+  { value: 'any',  label: 'Any' },
+  { value: 'same', label: 'Same ND' },
 ]
 
 function SegmentedSlider({ value, onChange, options }) {
