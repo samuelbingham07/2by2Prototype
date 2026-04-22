@@ -380,17 +380,6 @@ export default function App() {
         {aboutOpen && <AboutPanel prefs={prefs} onClose={() => setAboutOpen(false)} />}
         {prefsOpen && <PrefsPanel prefs={prefs} onChange={setPrefs} onClose={() => setPrefsOpen(false)} />}
 
-        {/* Board selection label */}
-        <div className="w-full flex items-center justify-between mb-2">
-          {boardLocked && !activeBoard.permanent ? (
-            <div className="flex items-center gap-1.5">
-              <span className="text-xs font-semibold" style={{ color: '#FF375F' }}>🔒 In the app, you'd only get one daily board</span>
-            </div>
-          ) : (
-            <p className="text-xs text-white/75 font-medium">New board every day — try out the entire week! <span style={{ color: 'rgba(255,255,255,0.4)' }}>(demo only)</span></p>
-          )}
-        </div>
-
         {/* Board topic pills */}
         <div className="w-full flex gap-2 overflow-x-auto pb-3 hide-scrollbar">
           {boards.map(board => {
@@ -419,6 +408,17 @@ export default function App() {
               </button>
             )
           })}
+        </div>
+
+        {/* Board selection label */}
+        <div className="w-full flex items-center justify-between mb-2">
+          {boardLocked && !activeBoard.permanent ? (
+            <div className="flex items-center gap-1.5">
+              <span className="text-xs font-semibold" style={{ color: '#FF375F' }}>🔒 In the app, you'd only get one daily board</span>
+            </div>
+          ) : (
+            <p className="text-xs text-white/75 font-medium">New board every day — try out the entire week! <span style={{ color: 'rgba(255,255,255,0.4)' }}>(demo only)</span></p>
+          )}
         </div>
 
         {/* Board title */}
