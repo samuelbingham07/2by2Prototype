@@ -172,6 +172,7 @@ export default function App() {
   const [viewedProfiles, setViewedProfiles] = useState([])   // all tapped (unlimited)
   const [savedProfiles, setSavedProfiles] = useState([])    // explicitly saved (max 5)
   const [activeProfile, setActiveProfile] = useState(null)
+  const [pendingReset, setPendingReset] = useState(false)
 
   // Finished screen interaction state
   const [likedProfiles, setLikedProfiles] = useState(new Set())
@@ -205,10 +206,10 @@ export default function App() {
       any:        'Connect, message, or pass — anyone you reach out to will appear in your Hiki inbox.',
       romance:    'Like, message, or pass — anyone you connect with will appear in your Hiki inbox.',
     },
-    finishCta: {
-      friendship: 'See your 5 picks → Add friends & connect',
-      any:        'See your 5 picks → Connect & message',
-      romance:    'See your 5 picks → Like, message & connect',
+    finishSuffix: {
+      friendship: '→ Add friends & connect',
+      any:        '→ Connect & message',
+      romance:    '→ Like, message & connect',
     },
   }
 
@@ -233,12 +234,18 @@ export default function App() {
     setScreen('landing')
   }
 
-  // Back from revealed → landing: keep board locked, just re-place
+  // Back from revealed → landing: warn if picks exist
   const handleBack = () => {
+    if (savedProfiles.length > 0) { setPendingReset(true); return }
+    doBack()
+  }
+
+  const doBack = () => {
     setScreen('landing')
     setUserPosition(null)
     setViewedProfiles([])
     setSavedProfiles([])
+    setPendingReset(false)
   }
 
   // Full reset from finished screen only
@@ -501,7 +508,7 @@ export default function App() {
         <div className="pt-14 pb-2">
           <div className="flex items-center gap-2 mb-1">
             <span style={{ fontSize: 26 }}>🎉</span>
-            <h1 className="text-2xl font-bold tracking-tight">Your 5 picks</h1>
+            <h1 className="text-2xl font-bold tracking-tight">Your {pickedUsers.length} {pickedUsers.length === 1 ? 'pick' : 'picks'}</h1>
           </div>
           <p className="text-white/80 text-sm leading-relaxed">
             {modeText.finishedDesc[mode]}
@@ -752,7 +759,8 @@ export default function App() {
           otherUsers={boardUsers}
           revealed
           onDotClick={handleDotClick}
-          viewedProfiles={savedProfiles}
+          viewedProfiles={viewedProfiles}
+          savedProfiles={savedProfiles}
           canViewMore={true}
         />
       </div>
@@ -792,17 +800,24 @@ export default function App() {
         </div>
       )}
 
-      {!canSaveMore && (
+      {savedProfiles.length > 0 && (
         <div className="mt-5 fade-in">
           <button
             onClick={() => setScreen('finished')}
             className="w-full py-4 rounded-2xl text-white font-bold text-base transition-all active:scale-95"
-            style={{ background: 'linear-gradient(135deg, #FF375F, #FF6B9D)', boxShadow: '0 4px 24px rgba(255,55,95,0.45)' }}
+            style={{
+              background: !canSaveMore ? 'linear-gradient(135deg, #FF375F, #FF6B9D)' : 'rgba(255,55,95,0.75)',
+              boxShadow: !canSaveMore ? '0 4px 24px rgba(255,55,95,0.45)' : '0 4px 16px rgba(255,55,95,0.25)',
+            }}
           >
-            {modeText.finishCta[mode]}
+            {!canSaveMore
+              ? `See your ${savedProfiles.length} picks ${modeText.finishSuffix[mode]}`
+              : `Finalize ${savedProfiles.length} pick${savedProfiles.length !== 1 ? 's' : ''} early →`}
           </button>
           <p className="text-center text-white/60 text-xs mt-3">
-            Your connections will appear in your Hiki inbox
+            {!canSaveMore
+              ? 'Your connections will appear in your Hiki inbox'
+              : `${MAX_PROFILES - savedProfiles.length} spot${MAX_PROFILES - savedProfiles.length !== 1 ? 's' : ''} left — or finalize now`}
           </p>
         </div>
       )}
@@ -815,10 +830,49 @@ export default function App() {
           activeBoard={activeBoard}
           onClose={() => setActiveProfile(null)}
           onSave={handleSaveProfile}
+          onRemove={() => {
+            setSavedProfiles(prev => prev.filter(id => id !== activeProfile.id))
+            setActiveProfile(null)
+          }}
           isSaved={savedProfiles.includes(activeProfile.id)}
           canSave={canSaveMore}
           addBtnText={modeText.addBtn[mode]}
         />
+      )}
+
+      {pendingReset && (
+        <>
+          <div
+            className="fixed inset-0 fade-in"
+            style={{ background: 'rgba(0,0,0,0.7)', zIndex: 40, backdropFilter: 'blur(4px)' }}
+            onClick={() => setPendingReset(false)}
+          />
+          <div
+            className="fixed left-0 right-0 bottom-0 slide-up"
+            style={{ zIndex: 50, background: '#1C1C1E', borderRadius: '28px 28px 0 0', padding: '32px 24px 44px', maxWidth: 480, margin: '0 auto' }}
+          >
+            <p className="text-white font-bold text-lg mb-2">Leave the board?</p>
+            <p className="text-white/65 text-sm mb-6">
+              You have {savedProfiles.length} pick{savedProfiles.length !== 1 ? 's' : ''} saved. Going back will reset your list.
+            </p>
+            <div className="flex gap-3">
+              <button
+                onClick={() => setPendingReset(false)}
+                className="flex-1 py-3 rounded-2xl text-sm font-semibold"
+                style={{ background: 'rgba(255,255,255,0.08)', color: 'rgba(255,255,255,0.8)' }}
+              >
+                Keep my list
+              </button>
+              <button
+                onClick={doBack}
+                className="flex-1 py-3 rounded-2xl text-sm font-semibold text-white"
+                style={{ background: '#FF375F' }}
+              >
+                Leave anyway
+              </button>
+            </div>
+          </div>
+        </>
       )}
     </div>
   )

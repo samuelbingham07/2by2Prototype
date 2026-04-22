@@ -1,4 +1,4 @@
-export default function ProfileCard({ user, activeBoard, onClose, onSave, isSaved, canSave, finalized = false, addBtnText = { idle: '+ Add to my list', done: '✓ Added to your list' } }) {
+export default function ProfileCard({ user, activeBoard, onClose, onSave, onRemove, isSaved, canSave, finalized = false, addBtnText = { idle: '+ Add to my list', done: '✓ Added to your list' } }) {
   const pos = user.positions[activeBoard.id]
 
   return (
@@ -113,11 +113,20 @@ export default function ProfileCard({ user, activeBoard, onClose, onSave, isSave
 
           {/* Save to list button */}
           {isSaved ? (
-            <div
-              className="w-full py-3.5 rounded-2xl text-center text-sm font-semibold"
-              style={{ background: 'rgba(255,55,95,0.15)', color: '#FF375F', border: '1px solid rgba(255,55,95,0.3)' }}
-            >
-              {addBtnText.done}
+            <div className="flex gap-2">
+              <div
+                className="flex-1 py-3.5 rounded-2xl text-center text-sm font-semibold"
+                style={{ background: 'rgba(255,55,95,0.15)', color: '#FF375F', border: '1px solid rgba(255,55,95,0.3)' }}
+              >
+                {addBtnText.done}
+              </div>
+              <button
+                onClick={() => { onRemove?.(); onClose() }}
+                className="py-3.5 px-4 rounded-2xl text-sm font-semibold transition-all active:scale-95"
+                style={{ background: 'rgba(255,255,255,0.07)', color: 'rgba(255,255,255,0.6)', border: '1px solid rgba(255,255,255,0.1)' }}
+              >
+                Remove
+              </button>
             </div>
           ) : canSave ? (
             <button

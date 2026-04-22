@@ -6,6 +6,7 @@ export default function QuadrantGrid({
   onGridTap,
   onDotClick,
   viewedProfiles = [],
+  savedProfiles = [],
   canViewMore = true,
 }) {
   const handleClick = (e) => {
@@ -54,25 +55,30 @@ export default function QuadrantGrid({
         {revealed && otherUsers.map((user, i) => {
           const pos = user.positions[board.id]
           if (!pos) return null
+          const isSaved = savedProfiles.includes(user.id)
           const isViewed = viewedProfiles.includes(user.id)
-          const isClickable = canViewMore || isViewed
+          const isClickable = canViewMore || isViewed || isSaved
           return (
             <button
               key={user.id}
-              className="dot-revealed absolute flex items-center justify-center rounded-full text-xs font-bold"
+              className={`dot-revealed absolute flex items-center justify-center rounded-full text-xs font-bold${isSaved ? ' pulse-ring' : ''}`}
               style={{
                 left: `${pos.x}%`,
                 top: `${100 - pos.y}%`,
                 transform: 'translate(-50%, -50%)',
-                width: 36,
-                height: 36,
+                width: isSaved ? 38 : 36,
+                height: isSaved ? 38 : 36,
                 background: user.color,
                 animationDelay: `${i * 60}ms`,
                 opacity: 0,
                 cursor: isClickable ? 'pointer' : 'default',
                 filter: !isClickable ? 'grayscale(0.6) brightness(0.6)' : 'none',
-                boxShadow: isViewed ? `0 0 0 2px #fff` : `0 2px 8px ${user.color}66`,
-                zIndex: 10,
+                boxShadow: isSaved
+                  ? `0 0 0 3px #fff, 0 0 0 6px ${user.color}55`
+                  : isViewed
+                  ? `0 0 0 2px rgba(255,255,255,0.5)`
+                  : `0 2px 8px ${user.color}66`,
+                zIndex: isSaved ? 15 : 10,
               }}
               onClick={(e) => {
                 e.stopPropagation()
