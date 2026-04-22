@@ -37,20 +37,6 @@ export default function QuadrantGrid({
           style={{ width: '1px', background: 'rgba(255,255,255,0.12)', transform: 'translateX(-50%)' }}
         />
 
-        {/* Quadrant labels */}
-        <span className="absolute top-3 left-3 text-[10px] text-white/60 font-medium leading-tight max-w-[80px]">
-          {board.yAxis.top}<br />{board.xAxis.left}
-        </span>
-        <span className="absolute top-3 right-3 text-[10px] text-white/60 font-medium leading-tight text-right max-w-[80px]">
-          {board.yAxis.top}<br />{board.xAxis.right}
-        </span>
-        <span className="absolute bottom-3 left-3 text-[10px] text-white/60 font-medium leading-tight max-w-[80px]">
-          {board.yAxis.bottom}<br />{board.xAxis.left}
-        </span>
-        <span className="absolute bottom-3 right-3 text-[10px] text-white/60 font-medium leading-tight text-right max-w-[80px]">
-          {board.yAxis.bottom}<br />{board.xAxis.right}
-        </span>
-
         {/* Other user dots */}
         {revealed && otherUsers.map((user, i) => {
           const pos = user.positions[board.id]
