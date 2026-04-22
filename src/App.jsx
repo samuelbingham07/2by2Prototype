@@ -336,6 +336,11 @@ export default function App() {
           You can change these — and other preferences — anytime from the Grids screen.
         </p>
 
+        {/* Demo note */}
+        <p className="text-center text-white/30 text-xs mb-5" onClick={e => e.stopPropagation()}>
+          Demo profiles are young adults (25–45) with mixed genders.
+        </p>
+
         {/* Tap anywhere hint */}
         <p className="text-center text-white/50 text-sm">tap anywhere to begin</p>
       </div>
