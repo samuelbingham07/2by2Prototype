@@ -304,8 +304,11 @@ export default function App() {
           <h1 className="font-bold tracking-tight mb-3" style={{ fontSize: 52, lineHeight: 1.05 }}>
             Hiki Grids
           </h1>
-          <p className="text-white text-base leading-relaxed" style={{ maxWidth: 320, margin: '0 auto' }}>
+          <p className="text-white text-base leading-relaxed mb-3" style={{ maxWidth: 320, margin: '0 auto 12px' }}>
             {modeText.tagline[mode]}
+          </p>
+          <p className="text-white/60 text-sm leading-relaxed" style={{ maxWidth: 300, margin: '0 auto' }}>
+            Place yourself on a daily grid to narrow down 5 people worth connecting with — then unlock their full profiles and reach out.
           </p>
         </div>
 
