@@ -105,6 +105,7 @@ export default function QuadrantGrid({
               boxShadow: '0 0 0 3px rgba(255,55,95,0.3), 0 4px 16px rgba(255,55,95,0.5)',
               zIndex: 20,
               position: 'absolute',
+              pointerEvents: 'none',
             }}
           >
             You
