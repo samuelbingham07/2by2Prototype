@@ -11,6 +11,7 @@ const profiles = [
   {
     id: 1,
     name: 'Maya',
+    boards: ['energy-timing', 'weekend-style', 'relationship-style'],
     ageFraction: 0.2,
     emoji: '👩🏽',
     color: '#4ECDC4',
@@ -29,6 +30,7 @@ const profiles = [
   {
     id: 2,
     name: 'Jordan',
+    boards: ['social-energy', 'food-vibes', 'communication'],
     ageFraction: 0.4,
     emoji: '🧑🏻',
     color: '#FF9F1C',
@@ -47,6 +49,7 @@ const profiles = [
   {
     id: 3,
     name: 'Sam',
+    boards: ['weekend-style', 'relationship-style', 'ambition'],
     ageFraction: 0.1,
     emoji: '👨🏽',
     color: '#A78BFA',
@@ -65,6 +68,7 @@ const profiles = [
   {
     id: 4,
     name: 'Priya',
+    boards: ['food-vibes', 'communication', 'energy-timing'],
     ageFraction: 0.3,
     emoji: '👩🏾',
     color: '#F9C74F',
@@ -83,6 +87,7 @@ const profiles = [
   {
     id: 5,
     name: 'Tyler',
+    boards: ['relationship-style', 'ambition', 'social-energy'],
     ageFraction: 0.5,
     emoji: '🧑🏼',
     color: '#F15BB5',
@@ -101,6 +106,7 @@ const profiles = [
   {
     id: 6,
     name: 'Zoe',
+    boards: ['communication', 'energy-timing', 'weekend-style'],
     ageFraction: 0.0,
     emoji: '👩🏻',
     color: '#06D6A0',
@@ -119,6 +125,7 @@ const profiles = [
   {
     id: 7,
     name: 'Marcus',
+    boards: ['ambition', 'social-energy', 'food-vibes'],
     ageFraction: 0.7,
     emoji: '👨🏿',
     color: '#84CC16',
@@ -137,6 +144,7 @@ const profiles = [
   {
     id: 8,
     name: 'Aisha',
+    boards: ['energy-timing', 'weekend-style', 'relationship-style'],
     ageFraction: 0.2,
     emoji: '👩🏾',
     color: '#FB8500',
@@ -155,6 +163,7 @@ const profiles = [
   {
     id: 9,
     name: 'Chris',
+    boards: ['social-energy', 'food-vibes', 'communication'],
     ageFraction: 0.6,
     emoji: '🧑🏽',
     color: '#118AB2',
@@ -173,6 +182,7 @@ const profiles = [
   {
     id: 10,
     name: 'Luna',
+    boards: ['weekend-style', 'relationship-style', 'ambition'],
     ageFraction: 0.1,
     emoji: '👩🏻‍🦰',
     color: '#9B5DE5',
@@ -191,6 +201,7 @@ const profiles = [
   {
     id: 11,
     name: 'Dev',
+    boards: ['food-vibes', 'communication', 'energy-timing'],
     ageFraction: 0.4,
     emoji: '👨🏻',
     color: '#3B82F6',
@@ -209,6 +220,7 @@ const profiles = [
   {
     id: 12,
     name: 'Sofia',
+    boards: ['relationship-style', 'ambition', 'social-energy'],
     ageFraction: 0.3,
     emoji: '👩🏽‍🦱',
     color: '#EF4444',
@@ -227,6 +239,7 @@ const profiles = [
   {
     id: 13,
     name: 'Milo',
+    boards: ['communication', 'energy-timing', 'weekend-style'],
     ageFraction: 0.2,
     emoji: '👨🏾',
     color: '#F97316',
@@ -245,6 +258,7 @@ const profiles = [
   {
     id: 14,
     name: 'Grace',
+    boards: ['ambition', 'social-energy', 'food-vibes'],
     ageFraction: 0.5,
     emoji: '👩🏼',
     color: '#10B981',
@@ -263,6 +277,7 @@ const profiles = [
   {
     id: 15,
     name: 'Kai',
+    boards: ['energy-timing', 'weekend-style', 'relationship-style'],
     ageFraction: 0.0,
     emoji: '🧑🏻‍🦱',
     color: '#EC4899',

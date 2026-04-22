@@ -180,7 +180,7 @@ export default function App() {
   const [messageText, setMessageText] = useState('')
   const [sentMessages, setSentMessages] = useState(new Set())
 
-  const boardUsers = users.filter(u => u.positions[activeBoard.id])
+  const boardUsers = users.filter(u => u.boards.includes(activeBoard.id))
   const canSaveMore = savedProfiles.length < MAX_PROFILES
   const pickedUsers = savedProfiles.map(id => users.find(u => u.id === id)).filter(Boolean)
 
