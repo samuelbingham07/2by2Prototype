@@ -101,21 +101,21 @@ export default function QuadrantGrid({
 
       {/* Axis labels outside the grid */}
       {/* X axis */}
-      <div className="absolute -bottom-8 left-0 right-0 flex justify-between px-1">
-        <span className="text-[13px] text-white font-semibold">← {board.xAxis.left}</span>
-        <span className="text-[13px] text-white font-semibold">{board.xAxis.right} →</span>
+      <div className="absolute -bottom-10 left-0 right-0 flex justify-between">
+        <span className="text-[12px] text-white font-semibold whitespace-nowrap px-2.5 py-1 rounded-full" style={{ background: 'rgba(255,255,255,0.1)', border: '1px solid rgba(255,255,255,0.18)' }}>← {board.xAxis.left}</span>
+        <span className="text-[12px] text-white font-semibold whitespace-nowrap px-2.5 py-1 rounded-full" style={{ background: 'rgba(255,255,255,0.1)', border: '1px solid rgba(255,255,255,0.18)' }}>{board.xAxis.right} →</span>
       </div>
       {/* Y axis */}
-      <div className="absolute top-0 bottom-0 flex flex-col justify-between py-1 items-center" style={{ width: 32, left: -36 }}>
+      <div className="absolute top-0 bottom-0 flex flex-col justify-between py-1 items-center" style={{ width: 32, left: -40 }}>
         <span
-          className="text-[13px] text-white font-semibold whitespace-nowrap"
-          style={{ transform: 'rotate(-90deg) translateX(50%)', transformOrigin: 'center', position: 'absolute', top: '25%' }}
+          className="text-[12px] text-white font-semibold whitespace-nowrap px-2.5 py-1 rounded-full"
+          style={{ background: 'rgba(255,255,255,0.1)', border: '1px solid rgba(255,255,255,0.18)', transform: 'rotate(-90deg) translateX(50%)', transformOrigin: 'center', position: 'absolute', top: '25%' }}
         >
           {board.yAxis.top}
         </span>
         <span
-          className="text-[13px] text-white font-semibold whitespace-nowrap"
-          style={{ transform: 'rotate(-90deg) translateX(-50%)', transformOrigin: 'center', position: 'absolute', top: '75%' }}
+          className="text-[12px] text-white font-semibold whitespace-nowrap px-2.5 py-1 rounded-full"
+          style={{ background: 'rgba(255,255,255,0.1)', border: '1px solid rgba(255,255,255,0.18)', transform: 'rotate(-90deg) translateX(-50%)', transformOrigin: 'center', position: 'absolute', top: '75%' }}
         >
           {board.yAxis.bottom}
         </span>
