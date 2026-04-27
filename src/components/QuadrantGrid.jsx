@@ -101,20 +101,20 @@ export default function QuadrantGrid({
 
       {/* Axis labels outside the grid */}
       {/* X axis */}
-      <div className="absolute -bottom-7 left-0 right-0 flex justify-between px-1">
-        <span className="text-[11px] text-white/75 font-medium">← {board.xAxis.left}</span>
-        <span className="text-[11px] text-white/75 font-medium">{board.xAxis.right} →</span>
+      <div className="absolute -bottom-8 left-0 right-0 flex justify-between px-1">
+        <span className="text-[13px] text-white font-semibold">← {board.xAxis.left}</span>
+        <span className="text-[13px] text-white font-semibold">{board.xAxis.right} →</span>
       </div>
       {/* Y axis */}
-      <div className="absolute -left-8 top-0 bottom-0 flex flex-col justify-between py-1 items-center" style={{ width: 28 }}>
+      <div className="absolute top-0 bottom-0 flex flex-col justify-between py-1 items-center" style={{ width: 32, left: -36 }}>
         <span
-          className="text-[11px] text-white/75 font-medium whitespace-nowrap"
+          className="text-[13px] text-white font-semibold whitespace-nowrap"
           style={{ transform: 'rotate(-90deg) translateX(50%)', transformOrigin: 'center', position: 'absolute', top: '25%' }}
         >
           {board.yAxis.top}
         </span>
         <span
-          className="text-[11px] text-white/75 font-medium whitespace-nowrap"
+          className="text-[13px] text-white font-semibold whitespace-nowrap"
           style={{ transform: 'rotate(-90deg) translateX(-50%)', transformOrigin: 'center', position: 'absolute', top: '75%' }}
         >
           {board.yAxis.bottom}
